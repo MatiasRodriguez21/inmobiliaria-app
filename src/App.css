@@ -66,14 +66,345 @@ h1, h2 {
 
 /* Estilos para el header */
 .header {
-  background-color: #007bff;
+  background-color: #004080;
   color: white;
-  padding: 15px 20px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.5rem;
+  padding: 10px 20px;
   border-radius: 6px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease;
+}
+
+/* Modo oscuro para header */
+.header.dark {
+  background-color: #001f3f;
+}
+
+/* Animación fade-in para logo */
+.logo {
+  height: 40px;
+  margin-right: 12px;
+  vertical-align: middle;
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive logo */
+@media (max-width: 600px) {
+  .logo {
+    height: 30px;
+    margin-right: 8px;
+  }
+}
+
+.header-content {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 12px;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ffcc00;
+}
+
+@media (max-width: 600px) {
+  .header-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-menu {
+    gap: 10px;
+  }
+}
+
+/* Estilos para PropertyDetail */
+.property-detail {
+  max-width: 960px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.property-main-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.carousel-container {
+  flex: 1 1 400px;
+  min-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.property-info {
+  flex: 1 1 300px;
+  min-width: 280px;
+  background-color: #f5f8fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.property-info p {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.caracteristicas-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.caracteristicas-text {
+  margin-left: 8px;
+  white-space: pre-wrap;
+  text-align: justify;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.property-info p strong {
+  min-width: 100px;
+  color: #004080;
+}
+
+.property-info .descripcion {
+  margin-top: 20px;
+  font-style: italic;
+  color: #555;
+  white-space: pre-wrap; /* Permite que el texto mantenga saltos de línea y espacios */
+  text-align: justify; /* Justifica el texto para mejor lectura */
+  word-wrap: break-word; /* Evita que palabras largas se salgan del contenedor */
+  overflow-wrap: break-word; /* Soporte adicional para romper palabras largas */
+  max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.buttons-container button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.buttons-container button:hover {
+  background-color: #00264d;
+}
+
+.related-properties {
+  margin-top: 40px;
+}
+
+.related-properties h2 {
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+.related-properties .propiedades-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.related-properties .propiedad-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  padding: 10px;
+  cursor: default;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.related-properties .propiedad-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.related-properties .propiedad-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.related-properties .propiedad-card h3 {
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: #007bff;
+}
+
+.related-properties .propiedad-card p {
+  margin: 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.property-detail h1 {
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.property-detail p {
+  font-size: 1rem;
+  margin: 8px 0;
+  color: #333;
+}
+
+.map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.buttons-container button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.buttons-container button:hover {
+  background-color: #00264d;
+}
+
+.related-properties {
+  margin-top: 40px;
+}
+
+.related-properties h2 {
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+.related-properties .propiedades-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.related-properties .propiedad-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  padding: 10px;
+  cursor: default;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.related-properties .propiedad-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.related-properties .propiedad-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.related-properties .propiedad-card h3 {
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: #007bff;
+}
+
+.related-properties .propiedad-card p {
+  margin: 0;
+  color: #555;
+  font-size: 0.9rem;
 }
 
 /* Estilos para el footer */
@@ -85,6 +416,70 @@ h1, h2 {
   margin-top: auto;
   border-radius: 6px;
   font-size: 0.9rem;
+}
+
+/* Icono edificio para header */
+.ci--building-01 {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 20h2m0 0h5m-5 0V7.2c0-1.12 0-1.68.218-2.108c.192-.377.497-.682.874-.874C5.52 4 6.08 4 7.2 4h1.6c1.12 0 1.68 0 2.107.218c.377.192.684.497.875.874c.218.427.218.987.218 2.105V10M9 20h11M9 20v-5.632c0-.525 0-.788.063-1.033q.085-.328.272-.61c.14-.21.336-.387.726-.737l2.302-2.068c.755-.678 1.133-1.017 1.56-1.146a2 2 0 0 1 1.154 0c.428.129.806.468 1.562 1.147l2.3 2.067c.39.35.585.527.726.737c.124.187.216.393.271.61c.064.245.064.508.064 1.033V20m0 0h2'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* Estilos para paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Estilos para botón modo oscuro */
+.dark-mode-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  color: #ffcc00;
+}
+
+.pagination button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #00264d;
+}
+
+.pagination span {
+  font-weight: 600;
+  color: #004080;
 }
 
 /* Estilos responsivos */

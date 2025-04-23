@@ -9,32 +9,58 @@ import PropertyDetail from './components/PropertyDetail.jsx';
 
 // Componente principal que muestra una lista de propiedades inmobiliarias
 function App() {
-  // Lista de propiedades de ejemplo (hardcoded)
+  // Lista de propiedades de ejemplo (hardcoded) con imágenes múltiples y ubicación para el carrusel y mapa
   const propiedades = [
     {
       id: 1,
       titulo: 'Departamento en el centro',
       descripcion: 'Departamento moderno con 2 habitaciones y 1 baño.',
       precio: 120000,
-      imagen: 'https://via.placeholder.com/300x200?text=Departamento+1',
-      tipo: 'departamento'
+      imagen: '/imagenes/departamento1.jpg',
+      imagenes: [
+        '/imagenes/departamento1.jpg',
+        '/imagenes/departamento1_2.jpg',
+        '/imagenes/departamento1_3.jpg'
+      ],
+      tipo: 'departamento',
+      ubicacion: [40.4168, -3.7038], // Madrid
+      ubicacionTexto: 'Centro de Madrid',
+      tamano: 85,
+      caracteristicas: '2 habitaciones, 1 baño, balcón'
     },
     {
       id: 2,
       titulo: 'Casa con jardín',
       descripcion: 'Casa amplia con jardín y garaje para 2 autos.',
       precio: 250000,
-      imagen: 'https://via.placeholder.com/300x200?text=Casa+2',
-      tipo: 'casa'
+      imagen: '/imagenes/casa2.jpg',
+      imagenes: [
+        '/imagenes/casa2.jpg',
+        '/imagenes/casa2_2.jpg'
+      ],
+      tipo: 'casa',
+      ubicacion: [40.4381, -3.8196], // Pozuelo de Alarcón
+      ubicacionTexto: 'Pozuelo de Alarcón',
+      tamano: 120,
+      caracteristicas: '3 habitaciones, 2 baños, jardín'
     },
     {
       id: 3,
       titulo: 'Monoambiente cerca de la playa',
       descripcion: 'Monoambiente ideal para vacaciones, a 200 metros de la playa.',
       precio: 90000,
-      imagen: 'https://via.placeholder.com/300x200?text=Monoambiente+3',
-      tipo: 'monoambiente'
+      imagen: '/imagenes/monoambiente3.jpg',
+      imagenes: [
+        '/imagenes/monoambiente3.jpg',
+        '/imagenes/monoambiente4.jpg'
+      ],
+      tipo: 'monoambiente',
+      ubicacion: [36.7213, -4.4214], // Málaga
+      ubicacionTexto: 'Málaga',
+      tamano: 40,
+      caracteristicas: 'Monoambiente, 1 baño, cerca de la playa'
     }
+    
   ];
 
   return (
