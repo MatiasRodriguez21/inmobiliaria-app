@@ -16,11 +16,11 @@ function App() {
       titulo: 'Departamento en el centro',
       descripcion: 'Departamento moderno con 2 habitaciones y 1 baño.',
       precio: 120000,
-      imagen: '/imagenes/departamento1.jpg',
+      imagen: '/imagenes/propiedad1.jpg',
       imagenes: [
-        '/imagenes/departamento1.jpg',
-        '/imagenes/departamento1_2.jpg',
-        '/imagenes/departamento1_3.jpg'
+        '/imagenes/prop1-1.jpg',
+        '/imagenes/prop1-2.jpg',
+        
       ],
       tipo: 'departamento',
       ubicacion: [40.4168, -3.7038], // Madrid
@@ -33,7 +33,7 @@ function App() {
       titulo: 'Casa con jardín',
       descripcion: 'Casa amplia con jardín y garaje para 2 autos.',
       precio: 250000,
-      imagen: '/imagenes/casa2.jpg',
+      imagen: '/imagenes/propiedad2.jpg',
       imagenes: [
         '/imagenes/casa2.jpg',
         '/imagenes/casa2_2.jpg'
@@ -49,7 +49,7 @@ function App() {
       titulo: 'Monoambiente cerca de la playa',
       descripcion: 'Monoambiente ideal para vacaciones, a 200 metros de la playa.',
       precio: 90000,
-      imagen: '/imagenes/monoambiente3.jpg',
+      imagen: '/imagenes/propiedad3.jpg',
       imagenes: [
         '/imagenes/monoambiente3.jpg',
         '/imagenes/monoambiente4.jpg'

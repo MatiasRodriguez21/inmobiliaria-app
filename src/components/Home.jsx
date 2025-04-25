@@ -29,14 +29,18 @@ const Home = ({ propiedades }) => {
       <h2>Propiedades disponibles</h2>
       <SearchFilter propiedades={propiedades} setFilteredPropiedades={setFilteredPropiedades} />
       <div className="propiedades-lista">
-        {propiedadesActuales.map((propiedad) => (
-          <Link to={`/property/${propiedad.id}`} key={propiedad.id} className="propiedad-card">
-            <img src={propiedad.imagen} alt={propiedad.titulo} />
-            <h3>{propiedad.titulo}</h3>
-            <p>{propiedad.descripcion}</p>
-            <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
-          </Link>
-        ))}
+        {propiedadesActuales.length === 0 ? (
+          <p>No se encontraron propiedades que coincidan con la búsqueda.</p>
+        ) : (
+          propiedadesActuales.map((propiedad) => (
+            <Link to={`/property/${propiedad.id}`} key={propiedad.id} className="propiedad-card">
+              <img src={propiedad.imagen} alt={propiedad.titulo} />
+              <h3>{propiedad.titulo}</h3>
+              <p>{propiedad.descripcion}</p>
+              <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
+            </Link>
+          ))
+        )}
       </div>
       {/* Controles de paginación */}
       <div className="pagination">
