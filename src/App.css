@@ -275,6 +275,74 @@ h1, h2 {
   max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
 }
 
+/* Estilos para la sección lateral de detalles de la propiedad */
+.property-info {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 1rem; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra */
+  padding: 2rem; /* Padding interno amplio */
+  max-width: 400px; /* Ancho máximo controlado */
+}
+
+.property-info .flex {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Espaciado entre íconos y texto */
+  margin-bottom: 1rem; /* Espaciado entre filas */
+}
+
+.property-info .flex p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333333; /* Color del texto */
+}
+
+.property-info .text-green-500 {
+  color: #22c55e; /* Verde para el precio */
+}
+
+.property-info .text-blue-500 {
+  color: #3b82f6; /* Azul para el tipo */
+}
+
+.property-info .text-pink-500 {
+  color: #ec4899; /* Rosa para la ubicación */
+}
+
+.property-info .text-purple-500 {
+  color: #a855f7; /* Violeta para el tamaño */
+}
+
+.property-info h2 {
+  font-size: 1.125rem; /* Tamaño del texto */
+  font-weight: 600; /* Peso del texto */
+  color: #4b5563; /* Gris oscuro */
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+}
+
+.property-info .flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* Espaciado entre badges */
+}
+
+.property-info .bg-gray-200 {
+  background-color: #e5e7eb; /* Fondo gris claro */
+  color: #374151; /* Texto gris oscuro */
+  padding: 0.5rem 0.75rem; /* Padding interno */
+  border-radius: 9999px; /* Bordes redondeados completos */
+  font-size: 0.875rem; /* Tamaño del texto */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espaciado entre íconos y texto */
+}
+
+.property-info .italic {
+  font-style: italic;
+  color: #9ca3af; /* Gris claro */
+  margin-top: 1rem; /* Espaciado superior */
+}
+
 .buttons-container {
   display: flex;
   gap: 20px;

@@ -4,6 +4,8 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Helmet } from 'react-helmet';
+import { FaDollarSign, FaHome, FaMapMarkerAlt, FaRulerCombined } from 'react-icons/fa';
 import '../App.css'; // Corregir la ruta de importación de estilos
 
 // Iconos simples con emojis para ilustrar (pueden reemplazarse por SVG o librerías de iconos)
@@ -37,6 +39,17 @@ const PropertyDetail = ({ propiedades }) => {
 
   return (
     <div className="property-detail">
+      <Helmet>
+        <title>{propiedad.titulo} - Detalles de la Propiedad</title>
+        <meta
+          name="description"
+          content={
+            propiedad.descripcionExtendida ||
+            `Detalles de la propiedad ${propiedad.titulo}, ubicada en ${propiedad.ubicacionTexto || 'una ubicación privilegiada'}.`
+          }
+        />
+      </Helmet>
+
       <button className="btn btn-back" onClick={() => navigate(-1)}>
         Volver al listado
       </button>
@@ -62,17 +75,44 @@ const PropertyDetail = ({ propiedades }) => {
         </div>
 
         {/* Información de la propiedad */}
-        <div className="property-info">
-          <p><IconoPrecio /> <strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
-          <p><IconoTipo /> <strong>Tipo:</strong> {propiedad.tipo}</p>
-          <p><IconoUbicacion /> <strong>Ubicación:</strong> {propiedad.ubicacionTexto || 'No disponible'}</p>
-          <p><IconoTamano /> <strong>Tamaño:</strong> {propiedad.tamano || 'No disponible'} m²</p>
-          <p className="caracteristicas-row">
-            <IconoCaracteristicas />
-            <strong>Características:</strong>
-            <span className="caracteristicas-text">{propiedad.caracteristicas || 'No disponible'}</span>
-          </p>
-          <p className="descripcion">{propiedad.descripcion}</p>
+        <div className="property-info bg-white rounded-2xl shadow-md p-8 max-w-md">
+          <div className="flex items-center gap-3 mb-4">
+            <FaDollarSign className="text-green-500" />
+            <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <FaHome className="text-blue-500" />
+            <p><strong>Tipo:</strong> {propiedad.tipo}</p>
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <FaMapMarkerAlt className="text-pink-500" />
+            <p><strong>Ubicación:</strong> {propiedad.ubicacionTexto || 'No disponible'}</p>
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <FaRulerCombined className="text-purple-500" />
+            <p><strong>Tamaño:</strong> {propiedad.tamano || 'No disponible'} m²</p>
+          </div>
+
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">Características</h2>
+          <div className="flex flex-wrap gap-2">
+            {propiedad.caracteristicas ? (
+              propiedad.caracteristicas.split(',').map((caracteristica, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                >
+                  {caracteristica.includes('Habitaciones') && <FaHome className="text-blue-500" />}
+                  {caracteristica.includes('Baños') && <FaRulerCombined className="text-purple-500" />}
+                  {caracteristica.includes('Balcón') && <FaMapMarkerAlt className="text-pink-500" />}
+                  {caracteristica}
+                </span>
+              ))
+            ) : (
+              <p>No hay características disponibles.</p>
+            )}
+          </div>
+
+          <p className="italic text-gray-500 mt-4">{propiedad.descripcion}</p>
         </div>
       </div>
 

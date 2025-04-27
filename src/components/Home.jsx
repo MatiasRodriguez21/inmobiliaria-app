@@ -74,7 +74,11 @@ const Home = ({ propiedades }) => {
           visiblePropiedades.map((propiedad) => (
             <div key={propiedad.id} className="propiedad-card">
               <Link to={`/property/${propiedad.id}`} className="propiedad-link">
-                <img src={propiedad.imagen} alt={propiedad.titulo} />
+                <img
+                  src={propiedad.imagen}
+                  alt={`Imagen de la propiedad ${propiedad.titulo}`}
+                  loading="lazy"
+                />
                 <h3>{propiedad.titulo}</h3>
                 <p>{propiedad.descripcion}</p>
                 <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
