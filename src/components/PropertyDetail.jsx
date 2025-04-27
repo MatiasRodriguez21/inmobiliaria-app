@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Helmet } from 'react-helmet';
 import { FaDollarSign, FaHome, FaMapMarkerAlt, FaRulerCombined } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import '../App.css'; // Corregir la ruta de importación de estilos
 
 // Iconos simples con emojis para ilustrar (pueden reemplazarse por SVG o librerías de iconos)
@@ -74,11 +75,15 @@ const PropertyDetail = ({ propiedades }) => {
           </Carousel>
         </div>
 
-        {/* Información de la propiedad */}
-        <div className="property-info bg-white rounded-2xl shadow-md p-8 max-w-md">
+        <motion.div
+          className="property-info bg-white rounded-2xl shadow-md p-8 max-w-md"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex items-center gap-3 mb-4">
             <FaDollarSign className="text-green-500" />
-            <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
+            <p><strong>Precio:</strong> <span className="text-green-500 font-extrabold text-lg">${propiedad.precio.toLocaleString()}</span></p>
           </div>
           <div className="flex items-center gap-3 mb-4">
             <FaHome className="text-blue-500" />
@@ -92,6 +97,8 @@ const PropertyDetail = ({ propiedades }) => {
             <FaRulerCombined className="text-purple-500" />
             <p><strong>Tamaño:</strong> {propiedad.tamano || 'No disponible'} m²</p>
           </div>
+
+          <hr className="border-t border-gray-200 my-4" />
 
           <h2 className="text-lg font-semibold text-gray-700 mb-2">Características</h2>
           <div className="flex flex-wrap gap-2">
@@ -112,15 +119,21 @@ const PropertyDetail = ({ propiedades }) => {
             )}
           </div>
 
+          <hr className="border-t border-gray-200 my-4" />
+
           <p className="italic text-gray-500 mt-4">{propiedad.descripcion}</p>
-        </div>
+        </motion.div>
       </div>
+
+      <hr className="border-t border-gray-200 my-4" />
 
       {/* Descripción extendida */}
       <div className="property-extended-description">
         <h2>Descripción extendida</h2>
         <p>{propiedad.descripcionExtendida || 'No hay una descripción extendida disponible para esta propiedad.'}</p>
       </div>
+
+      <hr className="border-t border-gray-200 my-4" />
 
       {/* Mapa con la ubicación */}
       <div className="map-container" style={{ height: '300px', marginBottom: '20px' }}>
@@ -134,6 +147,8 @@ const PropertyDetail = ({ propiedades }) => {
           </Marker>
         </MapContainer>
       </div>
+
+      <hr className="border-t border-gray-200 my-4" />
 
       {/* Botones estilizados */}
       <div className="buttons-container">
@@ -167,7 +182,9 @@ const PropertyDetail = ({ propiedades }) => {
         </div>
       )}
 
-      {/* Propiedades relacionadas con diseño mejorado */}
+      <hr className="border-t border-gray-200 my-4" />
+
+      {/* Propiedades relacionadas */}
       {propiedadesRelacionadas.length > 0 && (
         <div className="related-properties">
           <h2>Propiedades relacionadas</h2>
