@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -20,6 +20,11 @@ const PropertyDetail = ({ propiedades }) => {
   const { id } = useParams();
   const navigate = useNavigate(); // Hook para navegación
   const propiedad = propiedades.find(prop => prop.id === parseInt(id));
+  const [showContactForm, setShowContactForm] = useState(false); // Estado para mostrar/ocultar el formulario
+
+  const toggleContactForm = () => {
+    setShowContactForm(!showContactForm);
+  };
 
   if (!propiedad) {
     return <div>Propiedad no encontrada.</div>;
@@ -71,6 +76,12 @@ const PropertyDetail = ({ propiedades }) => {
         </div>
       </div>
 
+      {/* Descripción extendida */}
+      <div className="property-extended-description">
+        <h2>Descripción extendida</h2>
+        <p>{propiedad.descripcionExtendida || 'No hay una descripción extendida disponible para esta propiedad.'}</p>
+      </div>
+
       {/* Mapa con la ubicación */}
       <div className="map-container" style={{ height: '300px', marginBottom: '20px' }}>
         <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
@@ -86,13 +97,35 @@ const PropertyDetail = ({ propiedades }) => {
 
       {/* Botones estilizados */}
       <div className="buttons-container">
-        <button className="btn btn-primary" onClick={() => alert('Funcionalidad de contacto en desarrollo')}>
-          Contactar vendedor
+        <button className="btn btn-primary" onClick={toggleContactForm}>
+          {showContactForm ? 'Cerrar formulario' : 'Contactar vendedor'}
         </button>
         <button className="btn btn-secondary" onClick={() => alert('Funcionalidad de agendar visita en desarrollo')}>
           Agendar visita
         </button>
       </div>
+
+      {/* Formulario de contacto rápido */}
+      {showContactForm && (
+        <div className="contact-form">
+          <h3>Formulario de Contacto</h3>
+          <form>
+            <div className="form-group">
+              <label htmlFor="name">Nombre:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Correo Electrónico:</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="message">Mensaje:</label>
+              <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" className="btn btn-submit">Enviar</button>
+          </form>
+        </div>
+      )}
 
       {/* Propiedades relacionadas con diseño mejorado */}
       {propiedadesRelacionadas.length > 0 && (
