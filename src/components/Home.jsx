@@ -2,55 +2,95 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchFilter from './SearchFilter';
 
-// Componente Home que muestra el título principal de la aplicación y la lista de propiedades con paginación
+// Componente Home que muestra el título principal de la aplicación y la lista de propiedades con infinite scroll y favoritos
 const Home = ({ propiedades }) => {
   const [filteredPropiedades, setFilteredPropiedades] = useState(propiedades);
-  const [currentPage, setCurrentPage] = useState(1);
-  const propiedadesPorPagina = 5;
+  const [visiblePropiedades, setVisiblePropiedades] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const propiedadesPorCarga = 5;
+  const [favoritos, setFavoritos] = useState(() => {
+    const saved = localStorage.getItem('favoritos');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [favoritoMensaje, setFavoritoMensaje] = useState(null); // Estado para mostrar el mensaje
 
-  // Calcular propiedades para la página actual
-  const indexUltimaPropiedad = currentPage * propiedadesPorPagina;
-  const indexPrimeraPropiedad = indexUltimaPropiedad - propiedadesPorPagina;
-  const propiedadesActuales = filteredPropiedades.slice(indexPrimeraPropiedad, indexUltimaPropiedad);
-
-  // Cambiar página
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Resetear página a 1 cuando cambian las propiedades filtradas
   useEffect(() => {
-    setCurrentPage(1);
+    // Inicializar las propiedades visibles
+    setVisiblePropiedades(propiedades.slice(0, propiedadesPorCarga));
+    setHasMore(propiedades.length > propiedadesPorCarga);
+  }, [propiedades]);
+
+  useEffect(() => {
+    // Reiniciar las propiedades visibles cuando cambian los filtros
+    setVisiblePropiedades(filteredPropiedades.slice(0, propiedadesPorCarga));
+    setHasMore(filteredPropiedades.length > propiedadesPorCarga);
   }, [filteredPropiedades]);
 
-  // Número total de páginas
-  const totalPaginas = Math.ceil(filteredPropiedades.length / propiedadesPorPagina);
+  const cargarMasPropiedades = () => {
+    const nuevasPropiedades = filteredPropiedades.slice(
+      visiblePropiedades.length,
+      visiblePropiedades.length + propiedadesPorCarga
+    );
+    setVisiblePropiedades((prev) => [...prev, ...nuevasPropiedades]);
+    setHasMore(visiblePropiedades.length + nuevasPropiedades.length < filteredPropiedades.length);
+  };
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 100 &&
+      hasMore
+    ) {
+      cargarMasPropiedades();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasMore, visiblePropiedades]);
+
+  const toggleFavorito = (id) => {
+    let updatedFavoritos;
+    if (favoritos.includes(id)) {
+      updatedFavoritos = favoritos.filter((favId) => favId !== id);
+    } else {
+      updatedFavoritos = [...favoritos, id];
+      setFavoritoMensaje(id); // Mostrar mensaje para la propiedad agregada
+      setTimeout(() => setFavoritoMensaje(null), 2000); // Ocultar mensaje después de 2 segundos
+    }
+    setFavoritos(updatedFavoritos);
+    localStorage.setItem('favoritos', JSON.stringify(updatedFavoritos));
+  };
 
   return (
     <div className="home">
       <h2>Propiedades disponibles</h2>
       <SearchFilter propiedades={propiedades} setFilteredPropiedades={setFilteredPropiedades} />
       <div className="propiedades-lista">
-        {propiedadesActuales.length === 0 ? (
+        {visiblePropiedades.length === 0 ? (
           <p>No se encontraron propiedades que coincidan con la búsqueda.</p>
         ) : (
-          propiedadesActuales.map((propiedad) => (
-            <Link to={`/property/${propiedad.id}`} key={propiedad.id} className="propiedad-card">
-              <img src={propiedad.imagen} alt={propiedad.titulo} />
-              <h3>{propiedad.titulo}</h3>
-              <p>{propiedad.descripcion}</p>
-              <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
-            </Link>
+          visiblePropiedades.map((propiedad) => (
+            <div key={propiedad.id} className="propiedad-card">
+              <Link to={`/property/${propiedad.id}`} className="propiedad-link">
+                <img src={propiedad.imagen} alt={propiedad.titulo} />
+                <h3>{propiedad.titulo}</h3>
+                <p>{propiedad.descripcion}</p>
+                <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
+              </Link>
+              <button
+                className={`favorito-btn ${favoritos.includes(propiedad.id) ? 'favorito' : ''}`}
+                onClick={() => toggleFavorito(propiedad.id)}
+              >
+                ★
+              </button>
+              {favoritoMensaje === propiedad.id && (
+                <p className="favorito-leyenda mostrar">Propiedad agregada a favoritos</p>
+              )}
+            </div>
           ))
         )}
-      </div>
-      {/* Controles de paginación */}
-      <div className="pagination">
-        <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-          Anterior
-        </button>
-        <span>Página {currentPage} de {totalPaginas}</span>
-        <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPaginas}>
-          Siguiente
-        </button>
       </div>
     </div>
   );

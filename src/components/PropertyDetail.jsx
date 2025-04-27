@@ -1,20 +1,24 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import '../App.css'; // Corregir la ruta de importación de estilos
 
 // Iconos simples con emojis para ilustrar (pueden reemplazarse por SVG o librerías de iconos)
 const IconoPrecio = () => <span role="img" aria-label="precio">💰</span>;
-const IconoTipo = () => <span role="img" aria-label="tipo">🏠</span>;
 const IconoUbicacion = () => <span role="img" aria-label="ubicacion">📍</span>;
 const IconoTamano = () => <span role="img" aria-label="tamaño">📐</span>;
 const IconoCaracteristicas = () => <span role="img" aria-label="características">✨</span>;
 
+// Definición del IconoTipo para evitar error
+const IconoTipo = () => <span role="img" aria-label="tipo">🏠</span>;
+
 // Componente para mostrar los detalles de una propiedad
 const PropertyDetail = ({ propiedades }) => {
   const { id } = useParams();
+  const navigate = useNavigate(); // Hook para navegación
   const propiedad = propiedades.find(prop => prop.id === parseInt(id));
 
   if (!propiedad) {
@@ -28,12 +32,16 @@ const PropertyDetail = ({ propiedades }) => {
 
   return (
     <div className="property-detail">
+      <button className="btn btn-back" onClick={() => navigate(-1)}>
+        Volver al listado
+      </button>
+
       <h1>{propiedad.titulo}</h1>
 
       <div className="property-main-content">
-        {/* Carrusel de imágenes */}
+        {/* Carrusel de imágenes con miniaturas */}
         <div className="carousel-container">
-          <Carousel showThumbs={false} infiniteLoop useKeyboardArrows autoPlay>
+          <Carousel showThumbs={true} infiniteLoop useKeyboardArrows autoPlay>
             {propiedad.imagenes && propiedad.imagenes.length > 0 ? (
               propiedad.imagenes.map((img, index) => (
                 <div key={index}>
@@ -76,22 +84,28 @@ const PropertyDetail = ({ propiedades }) => {
         </MapContainer>
       </div>
 
-      {/* Botones de contacto y agendar visita */}
+      {/* Botones estilizados */}
       <div className="buttons-container">
-        <button onClick={() => alert('Funcionalidad de contacto en desarrollo')}>Contactar vendedor</button>
-        <button onClick={() => alert('Funcionalidad de agendar visita en desarrollo')}>Agendar visita</button>
+        <button className="btn btn-primary" onClick={() => alert('Funcionalidad de contacto en desarrollo')}>
+          Contactar vendedor
+        </button>
+        <button className="btn btn-secondary" onClick={() => alert('Funcionalidad de agendar visita en desarrollo')}>
+          Agendar visita
+        </button>
       </div>
 
-      {/* Propiedades relacionadas */}
+      {/* Propiedades relacionadas con diseño mejorado */}
       {propiedadesRelacionadas.length > 0 && (
         <div className="related-properties">
           <h2>Propiedades relacionadas</h2>
           <div className="propiedades-lista">
             {propiedadesRelacionadas.map((prop) => (
               <div key={prop.id} className="propiedad-card">
-                <img src={prop.imagen} alt={prop.titulo} />
-                <h3>{prop.titulo}</h3>
-                <p><strong>Precio:</strong> ${prop.precio.toLocaleString()}</p>
+                <img src={prop.imagen} alt={prop.titulo} className="propiedad-card-img" />
+                <div className="propiedad-card-body">
+                  <h3>{prop.titulo}</h3>
+                  <p><strong>Precio:</strong> ${prop.precio.toLocaleString()}</p>
+                </div>
               </div>
             ))}
           </div>
