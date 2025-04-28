@@ -19,17 +19,10 @@ const Header = () => {
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
           >
-            <Link to="/propiedades" className="nav-link">
+            <Link to="/propiedades/comprar" className="nav-link">
               <FaHome className="inline-block mr-1" />
               Propiedades
             </Link>
-            {showDropdown && (
-              <div className="dropdown-menu">
-                <Link to="/propiedades/comprar" className="dropdown-item">Comprar</Link>
-                <Link to="/propiedades/alquilar" className="dropdown-item">Alquilar</Link>
-                <Link to="/propiedades/inversiones" className="dropdown-item">Inversiones</Link>
-              </div>
-            )}
           </div>
           
           <Link to="/oficinas" className="nav-link">

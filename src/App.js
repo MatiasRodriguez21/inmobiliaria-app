@@ -4,12 +4,11 @@ import './App.css';
 
 import Header from './components/Header.jsx';
 import Home from './components/Home.jsx';
+import Properties from './components/Properties.jsx';
 import Footer from './components/Footer.jsx';
 import PropertyDetail from './components/PropertyDetail.jsx';
 
-// Componente principal que muestra una lista de propiedades inmobiliarias
 function App() {
-  // Lista de propiedades de ejemplo (hardcoded) con imágenes múltiples y ubicación para el carrusel y mapa
   const propiedades = [
     {
       id: 1,
@@ -59,8 +58,23 @@ function App() {
       ubicacionTexto: 'Málaga',
       tamano: 40,
       caracteristicas: 'Monoambiente, 1 baño, cerca de la playa'
+    },
+    {
+      id: 4,
+      titulo: 'Casa de Lujo con Piscina',
+      descripcion: 'Espectacular casa con piscina, jardín y vista panorámica.',
+      precio: 450000,
+      imagen: '/imagenes/propiedad1.jpg',
+      imagenes: [
+        '/imagenes/casa1.jpg',
+        '/imagenes/prop1-1.jpg'
+      ],
+      tipo: 'casa',
+      ubicacion: [40.4215, -3.6923], // Madrid Este
+      ubicacionTexto: 'Madrid Este',
+      tamano: 280,
+      caracteristicas: '5 habitaciones, 4 baños, piscina, jardín, garaje'
     }
-    
   ];
 
   return (
@@ -68,7 +82,8 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<Home propiedades={propiedades} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/propiedades/comprar" element={<Properties propiedades={propiedades} />} />
           <Route path="/property/:id" element={<PropertyDetail propiedades={propiedades} />} />
         </Routes>
         <Footer />
