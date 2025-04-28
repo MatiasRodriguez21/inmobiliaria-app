@@ -904,3 +904,109 @@ h1, h2 {
 body {
   @apply bg-white text-black dark:bg-gray-900 dark:text-white;
 }
+
+/* Estilos para el Hero Section */
+.hero-section {
+  position: relative;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay oscuro para cuando agregues la imagen de fondo */
+  color: white;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #004080; /* Color temporal hasta que agregues una imagen */
+  z-index: -1;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.search-container {
+  width: 100%;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Actualizando estilos del SearchFilter para el hero section */
+.search-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-filter input,
+.search-filter select {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.search-filter button {
+  background-color: #ff6b35;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-filter button:hover {
+  background-color: #e85a2c;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+
+  .search-container {
+    padding: 1rem;
+  }
+
+  .search-filter {
+    flex-direction: column;
+  }
+
+  .search-filter input,
+  .search-filter select,
+  .search-filter button {
+    width: 100%;
+  }
+}
