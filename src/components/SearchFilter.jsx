@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-const SearchFilter = ({ propiedades, setFilteredPropiedades }) => {
-  const [busqueda, setBusqueda] = useState('');
-  const [tipo, setTipo] = useState('');
+const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '', initialTipo = '' }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [busqueda, setBusqueda] = useState(initialBusqueda);
+  const [tipo, setTipo] = useState(initialTipo);
   const [precioMin, setPrecioMin] = useState('');
   const [precioMax, setPrecioMax] = useState('');
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    setBusqueda(initialBusqueda);
+    setTipo(initialTipo);
+  }, [initialBusqueda, initialTipo]);
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const params = new URLSearchParams(searchParams);
+    if (busqueda) params.set('busqueda', busqueda);
+    else params.delete('busqueda');
+    if (tipo) params.set('tipo', tipo);
+    else params.delete('tipo');
+    setSearchParams(params);
+
     const filtered = propiedades.filter(propiedad => {
       const cumpleBusqueda = propiedad.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
                             propiedad.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -22,7 +34,6 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades }) => {
     });
 
     setFilteredPropiedades(filtered);
-    navigate('/propiedades/comprar');
   };
 
   return (

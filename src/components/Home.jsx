@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchFilter from './SearchFilter';
+import HomeSearchFilter from './HomeSearchFilter';
 
 const Home = ({ propiedades }) => {
   return (
@@ -8,10 +8,7 @@ const Home = ({ propiedades }) => {
         <h1>Encuentra la propiedad de tus sueños</h1>
         <p>Busca entre nuestras propiedades disponibles</p>
         <div className="search-container">
-          <SearchFilter 
-            propiedades={propiedades}
-            setFilteredPropiedades={() => {}}
-          />
+          <HomeSearchFilter propiedades={propiedades} />
         </div>
       </div>
     </div>

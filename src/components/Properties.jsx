@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import SearchFilter from './SearchFilter';
 
 const Properties = ({ propiedades }) => {
-  const [filteredPropiedades, setFilteredPropiedades] = useState(
-    propiedades.filter(prop => prop.tipo !== 'alquiler')
-  );
+  const [searchParams] = useSearchParams();
+  const [filteredPropiedades, setFilteredPropiedades] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
 
   // Cargar favoritos del localStorage al iniciar
@@ -16,6 +15,28 @@ const Properties = ({ propiedades }) => {
       setFavoritos(JSON.parse(savedFavoritos));
     }
   }, []);
+
+  // Aplicar filtros iniciales basados en los parámetros de URL
+  useEffect(() => {
+    const busqueda = searchParams.get('busqueda') || '';
+    const tipo = searchParams.get('tipo') || '';
+    
+    let filtered = propiedades.filter(prop => prop.tipo !== 'alquiler');
+
+    if (busqueda) {
+      filtered = filtered.filter(propiedad => 
+        propiedad.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
+        propiedad.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
+        propiedad.ubicacionTexto.toLowerCase().includes(busqueda.toLowerCase())
+      );
+    }
+
+    if (tipo) {
+      filtered = filtered.filter(propiedad => propiedad.tipo === tipo);
+    }
+
+    setFilteredPropiedades(filtered);
+  }, [searchParams, propiedades]);
 
   // Guardar favoritos en localStorage cuando cambian
   useEffect(() => {
@@ -37,7 +58,12 @@ const Properties = ({ propiedades }) => {
   return (
     <div className="properties-page">
       <h2>Propiedades en Venta</h2>
-      <SearchFilter propiedades={propiedades} setFilteredPropiedades={setFilteredPropiedades} />
+      <SearchFilter 
+        propiedades={propiedades} 
+        setFilteredPropiedades={setFilteredPropiedades}
+        initialBusqueda={searchParams.get('busqueda') || ''}
+        initialTipo={searchParams.get('tipo') || ''}
+      />
       <div className="propiedades-lista">
         {filteredPropiedades.length === 0 ? (
           <p>No se encontraron propiedades que coincidan con la búsqueda.</p>
