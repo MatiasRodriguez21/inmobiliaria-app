@@ -37,32 +37,48 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
   };
 
   return (
-    <form onSubmit={handleSearch} className="search-filter">
-      <input
-        type="text"
-        placeholder="Buscar por ubicación, tipo de propiedad..."
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-      />
-      <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-        <option value="">Tipo de propiedad</option>
-        <option value="casa">Casa</option>
-        <option value="departamento">Departamento</option>
-        <option value="monoambiente">Monoambiente</option>
-      </select>
-      <input
-        type="number"
-        placeholder="Precio mínimo"
-        value={precioMin}
-        onChange={(e) => setPrecioMin(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Precio máximo"
-        value={precioMax}
-        onChange={(e) => setPrecioMax(e.target.value)}
-      />
-      <button type="submit">Buscar</button>
+    <form onSubmit={handleSearch} className="w-full">
+      <div className="flex flex-col md:flex-row gap-3 items-stretch">
+        <input
+          type="text"
+          placeholder="Buscar por ubicación, tipo de propiedad..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <select 
+          value={tipo} 
+          onChange={(e) => setTipo(e.target.value)}
+          className="md:w-48 px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Tipo de propiedad</option>
+          <option value="casa">Casa</option>
+          <option value="departamento">Departamento</option>
+          <option value="monoambiente">Monoambiente</option>
+        </select>
+        <div className="flex gap-3">
+          <input
+            type="number"
+            placeholder="Precio mínimo"
+            value={precioMin}
+            onChange={(e) => setPrecioMin(e.target.value)}
+            className="w-full md:w-36 px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            placeholder="Precio máximo"
+            value={precioMax}
+            onChange={(e) => setPrecioMax(e.target.value)}
+            className="w-full md:w-36 px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button 
+          type="submit"
+          className="px-8 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Buscar
+        </button>
+      </div>
     </form>
   );
 };

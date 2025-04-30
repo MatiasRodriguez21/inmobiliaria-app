@@ -56,17 +56,19 @@ const Properties = ({ propiedades }) => {
   };
 
   return (
-    <div className="properties-page">
-      <h2>Propiedades en Venta</h2>
-      <SearchFilter 
-        propiedades={propiedades} 
-        setFilteredPropiedades={setFilteredPropiedades}
-        initialBusqueda={searchParams.get('busqueda') || ''}
-        initialTipo={searchParams.get('tipo') || ''}
-      />
-      <div className="propiedades-lista">
+    <div className="max-w-[1440px] mx-auto px-4 py-8">
+      <h2 className="text-3xl font-bold text-center mb-8">Propiedades en Venta</h2>
+      <div className="max-w-[1280px] mx-auto">
+        <SearchFilter 
+          propiedades={propiedades} 
+          setFilteredPropiedades={setFilteredPropiedades}
+          initialBusqueda={searchParams.get('busqueda') || ''}
+          initialTipo={searchParams.get('tipo') || ''}
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
         {filteredPropiedades.length === 0 ? (
-          <p>No se encontraron propiedades que coincidan con la búsqueda.</p>
+          <p className="text-center col-span-full">No se encontraron propiedades que coincidan con la búsqueda.</p>
         ) : (
           filteredPropiedades.map((propiedad) => (
             <div key={propiedad.id} className="propiedad-card">
