@@ -7,6 +7,7 @@ import Home from './components/Home.jsx';
 import Properties from './components/Properties.jsx';
 import Footer from './components/Footer.jsx';
 import PropertyDetail from './components/PropertyDetail.jsx';
+import Nosotros from './components/Nosotros.jsx';
 
 function App() {
   const propiedades = [
@@ -45,7 +46,7 @@ function App() {
     },
     {
       id: 3,
-      titulo: 'Monoambiente cerca de la playa',
+      titulo: 'Monoambiente en la playa',
       descripcion: 'Monoambiente ideal para vacaciones, a 200 metros de la playa.',
       precio: 90000,
       imagen: '/imagenes/propiedad3.jpg',
@@ -86,6 +87,7 @@ function App() {
             <Route path="/" element={<Home propiedades={propiedades} />} />
             <Route path="/propiedades/comprar" element={<Properties propiedades={propiedades} />} />
             <Route path="/property/:id" element={<PropertyDetail propiedades={propiedades} />} />
+            <Route path="/nosotros" element={<Nosotros />} />
           </Routes>
         </main>
         <Footer />

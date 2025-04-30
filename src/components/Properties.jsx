@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaStar, FaRegStar, FaBed, FaBath, FaMapMarkerAlt, FaRulerCombined } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import SearchFilter from './SearchFilter';
 
 const Properties = ({ propiedades }) => {
@@ -56,9 +57,16 @@ const Properties = ({ propiedades }) => {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8">Propiedades en Venta</h2>
-      <div className="max-w-[1280px] mx-auto">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-[1440px] mx-auto px-4 py-12"
+    >
+      <h2 className="text-4xl font-display font-bold text-center mb-8 text-primary-800">
+        Propiedades en Venta
+      </h2>
+      <div className="max-w-[1280px] mx-auto mb-12">
         <SearchFilter 
           propiedades={propiedades} 
           setFilteredPropiedades={setFilteredPropiedades}
@@ -66,42 +74,105 @@ const Properties = ({ propiedades }) => {
           initialTipo={searchParams.get('tipo') || ''}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+      <motion.div 
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+        variants={{
+          hidden: { opacity: 0 },
+          show: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
+        initial="hidden"
+        animate="show"
+      >
         {filteredPropiedades.length === 0 ? (
-          <p className="text-center col-span-full">No se encontraron propiedades que coincidan con la búsqueda.</p>
+          <p className="text-center col-span-full text-lg text-gray-600">
+            No se encontraron propiedades que coincidan con la búsqueda.
+          </p>
         ) : (
           filteredPropiedades.map((propiedad) => (
-            <div key={propiedad.id} className="propiedad-card">
-              <Link to={`/property/${propiedad.id}`} className="propiedad-link">
-                <img
-                  src={propiedad.imagen}
-                  alt={`Imagen de la propiedad ${propiedad.titulo}`}
-                  loading="lazy"
-                />
-                <div className="propiedad-info">
-                  <h3>{propiedad.titulo}</h3>
-                  <p>{propiedad.descripcion}</p>
-                  <p><strong>Precio:</strong> ${propiedad.precio.toLocaleString()}</p>
-                  <p><strong>Tipo:</strong> {propiedad.tipo}</p>
-                  <p><strong>Ubicación:</strong> {propiedad.ubicacionTexto}</p>
+            <motion.div
+              key={propiedad.id}
+              className="relative group bg-white dark:bg-gray-800 rounded-2xl shadow-custom-lg hover:shadow-custom-xl transition-all duration-300 overflow-hidden h-full"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 }
+              }}
+            >
+              <Link to={`/property/${propiedad.id}`} className="block h-full">
+                <div className="relative overflow-hidden">
+                  <img
+                    src={propiedad.imagen}
+                    alt={`Imagen de ${propiedad.titulo}`}
+                    className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <p className="text-white text-2xl font-semibold">
+                      ${propiedad.precio.toLocaleString()}
+                    </p>
+                  </div>
+                  <button 
+                    onClick={(e) => toggleFavorito(propiedad.id, e)}
+                    className="absolute top-4 right-4 p-2 bg-white/90 dark:bg-gray-800/90 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 z-10"
+                    aria-label={favoritos.includes(propiedad.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
+                  >
+                    {favoritos.includes(propiedad.id) ? (
+                      <FaStar className="text-yellow-400 text-xl" />
+                    ) : (
+                      <FaRegStar className="text-gray-600 dark:text-gray-300 text-xl" />
+                    )}
+                  </button>
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-2 line-clamp-1">
+                    {propiedad.titulo}
+                  </h3>
+                  
+                  <div className="flex items-center text-gray-600 dark:text-gray-300 mb-4">
+                    <FaMapMarkerAlt className="mr-2 text-secondary-500" />
+                    <span className="text-sm line-clamp-1">{propiedad.ubicacionTexto}</span>
+                  </div>
+                  
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm line-clamp-2">
+                    {propiedad.descripcion}
+                  </p>
+                  
+                  <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div className="flex items-center gap-4">
+                      {propiedad.caracteristicas && (
+                        <>
+                          {propiedad.caracteristicas.includes('habitaciones') && (
+                            <span className="flex items-center gap-1">
+                              <FaBed className="text-primary-500" />
+                              {propiedad.caracteristicas.match(/\d+(?=\s*habitaciones)/)?.[0] || ''}
+                            </span>
+                          )}
+                          {propiedad.caracteristicas.includes('baño') && (
+                            <span className="flex items-center gap-1">
+                              <FaBath className="text-primary-500" />
+                              {propiedad.caracteristicas.match(/\d+(?=\s*baño)/)?.[0] || ''}
+                            </span>
+                          )}
+                        </>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <FaRulerCombined className="text-primary-500" />
+                        {propiedad.tamano}m²
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </Link>
-              <button 
-                onClick={(e) => toggleFavorito(propiedad.id, e)}
-                className="favorito-btn"
-                aria-label={favoritos.includes(propiedad.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
-              >
-                {favoritos.includes(propiedad.id) ? (
-                  <FaStar className="star-icon filled" />
-                ) : (
-                  <FaRegStar className="star-icon" />
-                )}
-              </button>
-            </div>
+            </motion.div>
           ))
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
