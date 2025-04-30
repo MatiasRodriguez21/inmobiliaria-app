@@ -36,47 +36,77 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full min-h-[80vh] bg-gradient-to-br from-blue-900 to-blue-800">
-      {/* Overlay oscuro */}
-      <div className="absolute inset-0 bg-black/40"></div>
+    <div className="relative w-full min-h-[90vh] overflow-hidden">
+      {/* Fondo con efecto parallax */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/imagenes/casa1.jpg')",
+          transform: "translateZ(0)",
+          willChange: "transform"
+        }}
+      />
+      
+      {/* Overlay con gradiente */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-blue-900/90" />
 
       {/* Contenido principal */}
-      <div className="relative z-10 w-full min-h-[80vh] flex flex-col items-center justify-center px-4">
-        <motion.h1 
-          className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 md:mb-12 text-center max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: -20 }}
+      <div className="relative z-10 w-full min-h-[90vh] flex flex-col items-center justify-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ 
+            duration: 0.8,
+            ease: [0.6, -0.05, 0.01, 0.99]
+          }}
+          className="text-center mb-12"
         >
-          Mucho más que mudarte
-        </motion.h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            Encuentra tu lugar ideal
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+            Descubre propiedades únicas y haz realidad el sueño de tu nuevo hogar
+          </p>
+        </motion.div>
 
         <motion.div 
           className="w-full max-w-4xl px-4"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ 
+            duration: 0.8,
+            delay: 0.2,
+            ease: [0.6, -0.05, 0.01, 0.99]
+          }}
         >
           {/* Botones de toggle */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6">
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
             {tabs.map((tab) => (
-              <button
+              <motion.button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 ${
+                className={`px-6 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
                   activeTab === tab.id
-                    ? 'bg-blue-700 text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-800 hover:bg-gray-100'
+                    ? 'bg-white text-blue-700 shadow-lg scale-105'
+                    : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
+                whileHover={{ scale: activeTab === tab.id ? 1.05 : 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {tab.text}
-              </button>
+              </motion.button>
             ))}
           </div>
 
           {/* Barra de búsqueda */}
-          <form onSubmit={handleSearch} className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-2 sm:p-3">
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <motion.form 
+            onSubmit={handleSearch}
+            className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <input
                   type="text"
@@ -84,15 +114,15 @@ const Hero = () => {
                   placeholder="¿Dónde querés mudarte?"
                   value={searchParams.ubicacion}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full px-6 py-4 text-gray-700 bg-white/90 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 />
               </div>
-              <div className="w-full sm:w-64">
+              <div className="w-full md:w-64">
                 <select
                   name="tipoPropiedad"
                   value={searchParams.tipoPropiedad}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 text-gray-700 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer transition-all"
+                  className="w-full px-6 py-4 text-gray-700 bg-white/90 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer transition-all"
                 >
                   <option value="">Tipo de propiedad</option>
                   <option value="casa">Casa</option>
@@ -101,15 +131,17 @@ const Hero = () => {
                   <option value="local">Local</option>
                 </select>
               </div>
-              <button
+              <motion.button
                 type="submit"
-                className="w-full sm:w-auto px-6 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+                className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-2 shadow-lg"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <FaSearch className="text-lg" />
-                <span className="sm:inline">Buscar</span>
-              </button>
+                <span className="font-medium">Buscar</span>
+              </motion.button>
             </div>
-          </form>
+          </motion.form>
         </motion.div>
       </div>
     </div>

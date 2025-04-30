@@ -1,37 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCode } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Sección de la empresa */}
+    <footer className="bg-gray-900 text-gray-300">
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:py-16 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Columna 1 - Sobre nosotros */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Inmobiliaria</h3>
-            <p className="text-gray-400 mb-4">
-              Encuentra tu hogar ideal con nosotros. Más de 10 años de experiencia en el mercado inmobiliario.
+            <h3 className="text-white text-lg font-semibold mb-4">Sobre Nosotros</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              Somos una inmobiliaria comprometida con encontrar el hogar perfecto para cada familia. 
+              Con años de experiencia en el mercado inmobiliario, ofrecemos un servicio personalizado y profesional.
             </p>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <FaFacebookF className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <FaTwitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <FaInstagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <FaLinkedinIn className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
-          {/* Enlaces útiles */}
+          {/* Columna 2 - Enlaces rápidos */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Enlaces Útiles</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">Enlaces Rápidos</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/propiedades/comprar" className="text-gray-400 hover:text-white transition-colors">
-                  Propiedades en Venta
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors">
+                  Inicio
                 </Link>
               </li>
               <li>
-                <Link to="/zonas" className="text-gray-400 hover:text-white transition-colors">
-                  Zonas Destacadas
+                <Link to="/propiedades" className="text-gray-400 hover:text-white transition-colors">
+                  Propiedades
                 </Link>
               </li>
               <li>
-                <Link to="/agentes" className="text-gray-400 hover:text-white transition-colors">
-                  Nuestros Agentes
+                <Link to="/nosotros" className="text-gray-400 hover:text-white transition-colors">
+                  Nosotros
                 </Link>
               </li>
               <li>
@@ -39,62 +54,85 @@ const Footer = () => {
                   Contacto
                 </Link>
               </li>
+              <li>
+                <Link to="/blog" className="text-gray-400 hover:text-white transition-colors">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Información de contacto */}
+          {/* Columna 3 - Servicios */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Contacto</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">Servicios</h3>
             <ul className="space-y-2">
-              <li className="flex items-center text-gray-400">
-                <FaMapMarkerAlt className="mr-2" />
-                <span>Av. Principal 123, Madrid</span>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                Compra de propiedades
               </li>
-              <li className="flex items-center text-gray-400">
-                <FaPhone className="mr-2" />
-                <span>+34 91 123 4567</span>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                Venta de propiedades
               </li>
-              <li className="flex items-center text-gray-400">
-                <FaEnvelope className="mr-2" />
-                <span>info@inmobiliaria.com</span>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                Alquiler de propiedades
+              </li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                Tasaciones
+              </li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                Asesoramiento legal
               </li>
             </ul>
           </div>
 
-          {/* Redes sociales */}
+          {/* Columna 4 - Contacto */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Síguenos</h3>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="text-gray-400 hover:text-white transition-colors">
-                <FaFacebook size={24} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors">
-                <FaTwitter size={24} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors">
-                <FaInstagram size={24} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors">
-                <FaLinkedin size={24} />
-              </a>
-            </div>
+            <h3 className="text-white text-lg font-semibold mb-4">Contacto</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start space-x-3">
+                <FaMapMarkerAlt className="w-5 h-5 text-blue-500 mt-1" />
+                <span className="text-gray-400">
+                  Av. Principal 123,<br />
+                  Ciudad, CP 1234
+                </span>
+              </li>
+              <li className="flex items-center space-x-3">
+                <FaPhone className="w-5 h-5 text-blue-500" />
+                <span className="text-gray-400">+54 (11) 1234-5678</span>
+              </li>
+              <li className="flex items-center space-x-3">
+                <FaEnvelope className="w-5 h-5 text-blue-500" />
+                <span className="text-gray-400">info@inmobiliaria.com</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Línea divisoria */}
-        <hr className="my-8 border-gray-800" />
-
-        {/* Copyright y desarrollador */}
-        <div className="text-center text-gray-400">
-          <p className="mb-2">© {new Date().getFullYear()} Inmobiliaria. Todos los derechos reservados.</p>
-          <p className="flex items-center justify-center gap-2">
-            <FaCode className="text-blue-500" />
-            Desarrollado por <span className="text-blue-500 font-medium">Matías Rodríguez</span>
-          </p>
+        {/* Línea divisora */}
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm text-center md:text-left">
+              © {new Date().getFullYear()} Tu Inmobiliaria. Todos los derechos reservados.
+            </p>
+            <div className="mt-4 md:mt-0">
+              <ul className="flex space-x-6">
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                    Política de privacidad
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                    Términos de uso
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                    Mapa del sitio
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

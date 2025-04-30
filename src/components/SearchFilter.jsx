@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FaSearch, FaHome, FaDollarSign } from 'react-icons/fa';
+import { FaSearch, FaHome, FaDollarSign, FaMapMarkerAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '', initialTipo = '' }) => {
@@ -9,6 +9,7 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
   const [tipo, setTipo] = useState(initialTipo);
   const [precioMin, setPrecioMin] = useState('');
   const [precioMax, setPrecioMax] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     setBusqueda(initialBusqueda);
@@ -40,83 +41,106 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
   };
 
   return (
-    <motion.form 
-      onSubmit={handleSearch}
+    <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-custom p-4"
     >
-      <div className="flex flex-col md:flex-row items-center gap-4">
-        {/* Campo de búsqueda */}
-        <div className="relative w-full md:w-1/3">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaSearch className="text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Buscar por ubicación, tipo..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-gray-200 dark:border-gray-700 focus:border-primary-500 focus:ring focus:ring-primary-200 dark:focus:ring-primary-800 dark:bg-gray-700 dark:text-white transition-colors"
-          />
-        </div>
+      <form onSubmit={handleSearch} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+        <div className="space-y-4">
+          {/* Barra principal de búsqueda */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <FaMapMarkerAlt className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Buscar por ubicación, tipo de propiedad..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
+              />
+            </div>
 
-        {/* Selector de tipo */}
-        <div className="relative w-full md:w-56">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaHome className="text-gray-400" />
+            <div className="md:w-64 relative">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <FaHome className="text-gray-400" />
+              </div>
+              <select 
+                value={tipo} 
+                onChange={(e) => setTipo(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white appearance-none cursor-pointer transition-all"
+              >
+                <option value="">Tipo de propiedad</option>
+                <option value="casa">Casa</option>
+                <option value="departamento">Departamento</option>
+                <option value="monoambiente">Monoambiente</option>
+              </select>
+            </div>
+
+            <motion.button 
+              type="submit"
+              className="md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaSearch />
+              <span className="font-medium">Buscar</span>
+            </motion.button>
           </div>
-          <select 
-            value={tipo} 
-            onChange={(e) => setTipo(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-gray-200 dark:border-gray-700 focus:border-primary-500 focus:ring focus:ring-primary-200 dark:focus:ring-primary-800 dark:bg-gray-700 dark:text-white transition-colors appearance-none bg-white dark:bg-gray-700 cursor-pointer"
+
+          {/* Botón para expandir filtros adicionales */}
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors focus:outline-none"
           >
-            <option value="">Tipo de propiedad</option>
-            <option value="casa">Casa</option>
-            <option value="departamento">Departamento</option>
-            <option value="monoambiente">Monoambiente</option>
-          </select>
-        </div>
+            {isExpanded ? 'Menos filtros' : 'Más filtros'}
+          </button>
 
-        {/* Precio mínimo */}
-        <div className="relative w-full md:w-48">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaDollarSign className="text-gray-400" />
-          </div>
-          <input
-            type="number"
-            placeholder="Precio mínimo"
-            value={precioMin}
-            onChange={(e) => setPrecioMin(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-gray-200 dark:border-gray-700 focus:border-primary-500 focus:ring focus:ring-primary-200 dark:focus:ring-primary-800 dark:bg-gray-700 dark:text-white transition-colors"
-          />
+          {/* Filtros adicionales */}
+          <motion.div 
+            initial={false}
+            animate={{ 
+              height: isExpanded ? 'auto' : 0,
+              opacity: isExpanded ? 1 : 0
+            }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="pt-4 space-y-4">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1 relative">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <FaDollarSign className="text-gray-400" />
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Precio mínimo"
+                    value={precioMin}
+                    onChange={(e) => setPrecioMin(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
+                  />
+                </div>
+                <div className="flex-1 relative">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <FaDollarSign className="text-gray-400" />
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Precio máximo"
+                    value={precioMax}
+                    onChange={(e) => setPrecioMax(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
-
-        {/* Precio máximo */}
-        <div className="relative w-full md:w-48">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaDollarSign className="text-gray-400" />
-          </div>
-          <input
-            type="number"
-            placeholder="Precio máximo"
-            value={precioMax}
-            onChange={(e) => setPrecioMax(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-gray-200 dark:border-gray-700 focus:border-primary-500 focus:ring focus:ring-primary-200 dark:focus:ring-primary-800 dark:bg-gray-700 dark:text-white transition-colors"
-          />
-        </div>
-
-        {/* Botón de búsqueda */}
-        <button 
-          type="submit"
-          className="w-full md:w-auto px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 min-w-[120px]"
-        >
-          <FaSearch />
-          <span>Buscar</span>
-        </button>
-      </div>
-    </motion.form>
+      </form>
+    </motion.div>
   );
 };
 
