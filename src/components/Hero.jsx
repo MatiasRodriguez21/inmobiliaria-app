@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('comprar');
+  const [searchParams, setSearchParams] = useState({
+    ubicacion: '',
+    tipoPropiedad: ''
+  });
 
   const tabs = [
     { id: 'comprar', text: 'Quiero comprar', bgColor: 'bg-blue-700' },
@@ -11,6 +17,23 @@ const Hero = () => {
     { id: 'vender', text: 'Quiero vender', bgColor: 'bg-white' },
     { id: 'emprendimientos', text: 'Emprendimientos', bgColor: 'bg-white' }
   ];
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (searchParams.ubicacion) params.set('busqueda', searchParams.ubicacion);
+    if (searchParams.tipoPropiedad) params.set('tipo', searchParams.tipoPropiedad);
+    
+    navigate(`/propiedades/comprar?${params.toString()}`);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   return (
     <div className="relative w-full min-h-[80vh] bg-gradient-to-br from-blue-900 to-blue-800">
@@ -52,17 +75,23 @@ const Hero = () => {
           </div>
 
           {/* Barra de búsqueda */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-2 sm:p-3">
+          <form onSubmit={handleSearch} className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-2 sm:p-3">
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <div className="flex-1">
                 <input
                   type="text"
+                  name="ubicacion"
                   placeholder="¿Dónde querés mudarte?"
+                  value={searchParams.ubicacion}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 />
               </div>
               <div className="w-full sm:w-64">
                 <select
+                  name="tipoPropiedad"
+                  value={searchParams.tipoPropiedad}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 text-gray-700 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer transition-all"
                 >
                   <option value="">Tipo de propiedad</option>
@@ -73,13 +102,14 @@ const Hero = () => {
                 </select>
               </div>
               <button
+                type="submit"
                 className="w-full sm:w-auto px-6 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
               >
                 <FaSearch className="text-lg" />
                 <span className="sm:inline">Buscar</span>
               </button>
             </div>
-          </div>
+          </form>
         </motion.div>
       </div>
     </div>
