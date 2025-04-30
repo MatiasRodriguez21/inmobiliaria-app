@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCode } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -110,9 +110,28 @@ const Footer = () => {
         {/* Línea divisora */}
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Tu Inmobiliaria. Todos los derechos reservados.
-            </p>
+            <div className="text-gray-400 text-sm text-center md:text-left space-y-2">
+              <p>© {new Date().getFullYear()} Tu Inmobiliaria. Todos los derechos reservados.</p>
+              <div className="group">
+                <div className="flex items-center justify-center md:justify-start space-x-3 py-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transform group-hover:rotate-12 transition-all duration-300">
+                    <FaCode className="text-white text-sm" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-gray-500 text-xs">Desarrollado por</span>
+                    <a 
+                      href="#" 
+                      className="relative inline-flex items-center"
+                    >
+                      <span className="relative text-blue-400 font-medium tracking-wide hover:text-blue-300 transition-colors duration-200">
+                        Matias Rodriguez
+                      </span>
+                      <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-blue-500 to-blue-300 group-hover:w-full transition-all duration-300 ease-in-out"></div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="mt-4 md:mt-0">
               <ul className="flex space-x-6">
                 <li>

@@ -23,8 +23,8 @@ function App() {
         
       ],
       tipo: 'departamento',
-      ubicacion: [40.4168, -3.7038], // Madrid
-      ubicacionTexto: 'Centro de Madrid',
+      ubicacion: [-34.6037, -58.3816], // Buenos Aires
+      ubicacionTexto: 'Centro de Buenos Aires',
       tamano: 85,
       caracteristicas: '2 habitaciones, 1 baño, balcón'
     },
@@ -39,15 +39,15 @@ function App() {
         '/imagenes/casa2_2.jpg'
       ],
       tipo: 'casa',
-      ubicacion: [40.4381, -3.8196], // Pozuelo de Alarcón
-      ubicacionTexto: 'Pozuelo de Alarcón',
+      ubicacion: [-31.4201, -64.1888], // Córdoba
+      ubicacionTexto: 'Córdoba Capital',
       tamano: 120,
       caracteristicas: '3 habitaciones, 2 baños, jardín'
     },
     {
       id: 3,
-      titulo: 'Monoambiente en la playa',
-      descripcion: 'Monoambiente ideal para vacaciones, a 200 metros de la playa.',
+      titulo: 'Monoambiente en zona céntrica',
+      descripcion: 'Monoambiente ideal para inversión, cerca de zona comercial.',
       precio: 90000,
       imagen: '/imagenes/propiedad3.jpg',
       imagenes: [
@@ -55,10 +55,10 @@ function App() {
         '/imagenes/monoambiente4.jpg'
       ],
       tipo: 'monoambiente',
-      ubicacion: [36.7213, -4.4214], // Málaga
-      ubicacionTexto: 'Málaga',
+      ubicacion: [-32.8908, -68.8272], // Mendoza
+      ubicacionTexto: 'Mendoza Capital',
       tamano: 40,
-      caracteristicas: 'Monoambiente, 1 baño, cerca de la playa'
+      caracteristicas: 'Monoambiente, 1 baño, excelente ubicación'
     },
     {
       id: 4,
@@ -71,8 +71,8 @@ function App() {
         '/imagenes/prop1-1.jpg'
       ],
       tipo: 'casa',
-      ubicacion: [40.4215, -3.6923], // Madrid Este
-      ubicacionTexto: 'Madrid Este',
+      ubicacion: [-31.6187, -60.7012], // Santa Fe
+      ubicacionTexto: 'Santa Fe Capital',
       tamano: 280,
       caracteristicas: '5 habitaciones, 4 baños, piscina, jardín, garaje'
     }
