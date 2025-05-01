@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaBuilding, FaInfoCircle, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaHome, FaBuilding, FaInfoCircle, FaPhoneAlt, FaBars, FaTimes, FaKey } from 'react-icons/fa';
 import { MdRealEstateAgent } from 'react-icons/md';
 
 const Header = () => {
@@ -48,7 +48,16 @@ const Header = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               <FaBuilding className="text-xl" />
-              <span>Propiedades</span>
+              <span>Comprar</span>
+            </Link>
+
+            <Link 
+              to="/propiedades/alquilar" 
+              className="nav-link flex items-center gap-2 text-white hover:text-blue-200 transition-colors w-full md:w-auto"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <FaKey className="text-xl" />
+              <span>Alquilar</span>
             </Link>
 
             <Link 

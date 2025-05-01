@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { FaSearch, FaHome, FaDollarSign, FaMapMarkerAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '', initialTipo = '' }) => {
+const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '', initialTipo = '', isRental = false }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [busqueda, setBusqueda] = useState(initialBusqueda);
   const [tipo, setTipo] = useState(initialTipo);
@@ -56,7 +56,7 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
               </div>
               <input
                 type="text"
-                placeholder="Buscar por ubicación, tipo de propiedad..."
+                placeholder={`Buscar ${isRental ? 'alquiler' : 'propiedad'} por ubicación...`}
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
@@ -117,7 +117,7 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
                   </div>
                   <input
                     type="number"
-                    placeholder="Precio mínimo"
+                    placeholder={`Precio mínimo ${isRental ? 'mensual' : ''}`}
                     value={precioMin}
                     onChange={(e) => setPrecioMin(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
@@ -129,7 +129,7 @@ const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '
                   </div>
                   <input
                     type="number"
-                    placeholder="Precio máximo"
+                    placeholder={`Precio máximo ${isRental ? 'mensual' : ''}`}
                     value={precioMax}
                     onChange={(e) => setPrecioMax(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"

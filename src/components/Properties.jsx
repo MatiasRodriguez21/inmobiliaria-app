@@ -4,7 +4,7 @@ import { FaStar, FaRegStar, FaBed, FaBath, FaMapMarkerAlt, FaRulerCombined } fro
 import { motion } from 'framer-motion';
 import SearchFilter from './SearchFilter';
 
-const Properties = ({ propiedades }) => {
+const Properties = ({ propiedades, isRental = false }) => {
   const [searchParams] = useSearchParams();
   const [filteredPropiedades, setFilteredPropiedades] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
@@ -22,7 +22,7 @@ const Properties = ({ propiedades }) => {
     const busqueda = searchParams.get('busqueda') || '';
     const tipo = searchParams.get('tipo') || '';
     
-    let filtered = propiedades.filter(prop => prop.tipo !== 'alquiler');
+    let filtered = propiedades;
 
     if (busqueda) {
       filtered = filtered.filter(propiedad => 
@@ -64,7 +64,7 @@ const Properties = ({ propiedades }) => {
       className="max-w-[1440px] mx-auto px-4 py-12"
     >
       <h2 className="text-4xl font-display font-bold text-center mb-8 text-primary-800">
-        Propiedades en Venta
+        Propiedades en {isRental ? 'Alquiler' : 'Venta'}
       </h2>
       <div className="max-w-[1280px] mx-auto mb-12">
         <SearchFilter 
@@ -72,6 +72,7 @@ const Properties = ({ propiedades }) => {
           setFilteredPropiedades={setFilteredPropiedades}
           initialBusqueda={searchParams.get('busqueda') || ''}
           initialTipo={searchParams.get('tipo') || ''}
+          isRental={isRental}
         />
       </div>
       <motion.div 
@@ -117,7 +118,7 @@ const Properties = ({ propiedades }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-300">
                     <p className="text-white text-2xl font-bold mb-2">
-                      ${propiedad.precio.toLocaleString()}
+                      ${propiedad.precio.toLocaleString()}{isRental && '/mes'}
                     </p>
                   </div>
                 </div>

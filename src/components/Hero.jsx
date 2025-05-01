@@ -13,9 +13,7 @@ const Hero = () => {
 
   const tabs = [
     { id: 'comprar', text: 'Quiero comprar', bgColor: 'bg-blue-700' },
-    { id: 'alquilar', text: 'Quiero alquilar', bgColor: 'bg-white' },
-    { id: 'vender', text: 'Quiero vender', bgColor: 'bg-white' },
-    { id: 'emprendimientos', text: 'Emprendimientos', bgColor: 'bg-white' }
+    { id: 'alquilar', text: 'Quiero alquilar', bgColor: 'bg-white' }
   ];
 
   const handleSearch = (e) => {
@@ -24,7 +22,7 @@ const Hero = () => {
     if (searchParams.ubicacion) params.set('busqueda', searchParams.ubicacion);
     if (searchParams.tipoPropiedad) params.set('tipo', searchParams.tipoPropiedad);
     
-    navigate(`/propiedades/comprar?${params.toString()}`);
+    navigate(`/propiedades/${activeTab}?${params.toString()}`);
   };
 
   const handleInputChange = (e) => {
@@ -111,7 +109,7 @@ const Hero = () => {
                 <input
                   type="text"
                   name="ubicacion"
-                  placeholder="¿Dónde querés mudarte?"
+                  placeholder={`¿Dónde querés ${activeTab === 'alquilar' ? 'alquilar' : 'mudarte'}?`}
                   value={searchParams.ubicacion}
                   onChange={handleInputChange}
                   className="w-full px-6 py-4 text-gray-700 bg-white/90 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
@@ -127,8 +125,7 @@ const Hero = () => {
                   <option value="">Tipo de propiedad</option>
                   <option value="casa">Casa</option>
                   <option value="departamento">Departamento</option>
-                  <option value="terreno">Terreno</option>
-                  <option value="local">Local</option>
+                  <option value="monoambiente">Monoambiente</option>
                 </select>
               </div>
               <motion.button

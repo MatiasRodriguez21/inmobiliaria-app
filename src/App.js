@@ -78,6 +78,57 @@ function App() {
     }
   ];
 
+  const propiedadesAlquiler = [
+    {
+      id: 5,
+      titulo: 'Departamento moderno para alquilar',
+      descripcion: 'Hermoso departamento con vista a la ciudad, totalmente amueblado.',
+      precio: 800,
+      imagen: '/imagenes/propiedad1.jpg',
+      imagenes: [
+        '/imagenes/prop1-1.jpg',
+        '/imagenes/prop1-2.jpg',
+      ],
+      tipo: 'departamento',
+      ubicacion: [-34.6037, -58.3816],
+      ubicacionTexto: 'Recoleta, Buenos Aires',
+      tamano: 75,
+      caracteristicas: '2 habitaciones, 1 baño, amueblado'
+    },
+    {
+      id: 6,
+      titulo: 'Casa familiar en alquiler',
+      descripcion: 'Espaciosa casa con jardín, perfecta para familias.',
+      precio: 1200,
+      imagen: '/imagenes/propiedad2.jpg',
+      imagenes: [
+        '/imagenes/casa2.jpg',
+        '/imagenes/casa2_2.jpg'
+      ],
+      tipo: 'casa',
+      ubicacion: [-31.4201, -64.1888],
+      ubicacionTexto: 'Barrio Jardín, Córdoba',
+      tamano: 150,
+      caracteristicas: '3 habitaciones, 2 baños, jardín, garage'
+    },
+    {
+      id: 7,
+      titulo: 'Monoambiente céntrico',
+      descripcion: 'Acogedor monoambiente en pleno centro, ideal para estudiantes.',
+      precio: 500,
+      imagen: '/imagenes/propiedad3.jpg',
+      imagenes: [
+        '/imagenes/monoambiente3.jpg',
+        '/imagenes/monoambiente4.jpg'
+      ],
+      tipo: 'monoambiente',
+      ubicacion: [-32.8908, -68.8272],
+      ubicacionTexto: 'Centro, Mendoza',
+      tamano: 35,
+      caracteristicas: 'Monoambiente, 1 baño, cocina integrada'
+    }
+  ];
+
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
@@ -86,7 +137,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home propiedades={propiedades} />} />
             <Route path="/propiedades/comprar" element={<Properties propiedades={propiedades} />} />
-            <Route path="/property/:id" element={<PropertyDetail propiedades={propiedades} />} />
+            <Route path="/propiedades/alquilar" element={<Properties propiedades={propiedadesAlquiler} isRental={true} />} />
+            <Route path="/property/:id" element={<PropertyDetail propiedades={[...propiedades, ...propiedadesAlquiler]} />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Routes>
         </main>
