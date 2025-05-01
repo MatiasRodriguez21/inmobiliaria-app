@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Helmet } from 'react-helmet';
 import { FaDollarSign, FaHome, FaMapMarkerAlt, FaRulerCombined } from 'react-icons/fa';
@@ -17,6 +18,17 @@ const IconoCaracteristicas = () => <span role="img" aria-label="características
 
 // Definición del IconoTipo para evitar error
 const IconoTipo = () => <span role="img" aria-label="tipo">🏠</span>;
+
+// Configuración del icono del marcador
+const icon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 // Componente para mostrar los detalles de una propiedad
 const PropertyDetail = ({ propiedades }) => {
@@ -142,8 +154,13 @@ const PropertyDetail = ({ propiedades }) => {
             attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
-            <Popup>{propiedad.titulo}</Popup>
+          <Marker position={position} icon={icon}>
+            <Popup>
+              <div className="text-center">
+                <h3 className="font-bold">{propiedad.titulo}</h3>
+                <p>{propiedad.ubicacionTexto}</p>
+              </div>
+            </Popup>
           </Marker>
         </MapContainer>
       </div>

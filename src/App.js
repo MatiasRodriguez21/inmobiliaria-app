@@ -8,6 +8,8 @@ import Properties from './components/Properties.jsx';
 import Footer from './components/Footer.jsx';
 import PropertyDetail from './components/PropertyDetail.jsx';
 import Nosotros from './components/Nosotros.jsx';
+import Servicios from './components/Servicios.jsx';
+import Contacto from './components/Contacto.jsx';
 
 function App() {
   const propiedades = [
@@ -140,6 +142,8 @@ function App() {
             <Route path="/propiedades/alquilar" element={<Properties propiedades={propiedadesAlquiler} isRental={true} />} />
             <Route path="/property/:id" element={<PropertyDetail propiedades={[...propiedades, ...propiedadesAlquiler]} />} />
             <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/servicios" element={<Servicios />} />
+            <Route path="/contacto" element={<Contacto />} />
           </Routes>
         </main>
         <Footer />
