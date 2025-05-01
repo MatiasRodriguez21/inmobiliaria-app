@@ -34,7 +34,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full min-h-[90vh] overflow-hidden">
+    <div className="relative w-full h-[100dvh] overflow-x-hidden -mt-[72px] md:-mt-[80px]">
       {/* Fondo con efecto parallax */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -49,7 +49,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-blue-900/90" />
 
       {/* Contenido principal */}
-      <div className="relative z-10 w-full min-h-[90vh] flex flex-col items-center justify-center px-4">
+      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}

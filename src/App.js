@@ -133,9 +133,9 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col relative">
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow relative pt-[72px] md:pt-[80px]">
           <Routes>
             <Route path="/" element={<Home propiedades={propiedades} />} />
             <Route path="/propiedades/comprar" element={<Properties propiedades={propiedades} />} />
