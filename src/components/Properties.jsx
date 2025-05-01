@@ -66,6 +66,7 @@ const Properties = ({ propiedades, isRental = false }) => {
       <h2 className="text-4xl font-display font-bold text-center mb-8 text-primary-800">
         Propiedades en {isRental ? 'Alquiler' : 'Venta'}
       </h2>
+
       <div className="max-w-[1280px] mx-auto mb-12">
         <SearchFilter 
           propiedades={propiedades} 
@@ -75,6 +76,21 @@ const Properties = ({ propiedades, isRental = false }) => {
           isRental={isRental}
         />
       </div>
+
+      <div className="max-w-[1280px] mx-auto -ml-1 mb-8">
+        <div className="flex items-baseline gap-2">
+          <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            {filteredPropiedades.length}
+          </span>
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
+            propiedades en {isRental ? 'alquiler' : 'venta'}
+            {(searchParams.get('busqueda') || searchParams.get('tipo')) && (
+              <span className="ml-1 text-gray-500">encontradas</span>
+            )}
+          </span>
+        </div>
+      </div>
+
       <motion.div 
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
         variants={{
