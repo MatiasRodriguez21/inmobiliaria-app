@@ -20,9 +20,12 @@ function App() {
       precio: 120000,
       imagen: '/imagenes/propiedad1.jpg',
       imagenes: [
+        '/imagenes/propiedad1.jpg',
         '/imagenes/prop1-1.jpg',
         '/imagenes/prop1-2.jpg',
-        
+        '/imagenes/casa1.jpg',
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/propiedad3.jpg'
       ],
       tipo: 'departamento',
       ubicacion: [-34.6037, -58.3816], // Buenos Aires
@@ -37,8 +40,12 @@ function App() {
       precio: 250000,
       imagen: '/imagenes/propiedad2.jpg',
       imagenes: [
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/casa1.jpg',
         '/imagenes/casa2.jpg',
-        '/imagenes/casa2_2.jpg'
+        '/imagenes/prop1-1.jpg',
+        '/imagenes/prop1-2.jpg',
+        '/imagenes/propiedad1.jpg'
       ],
       tipo: 'casa',
       ubicacion: [-31.4201, -64.1888], // Córdoba
@@ -53,8 +60,12 @@ function App() {
       precio: 90000,
       imagen: '/imagenes/propiedad3.jpg',
       imagenes: [
-        '/imagenes/monoambiente3.jpg',
-        '/imagenes/monoambiente4.jpg'
+        '/imagenes/propiedad3.jpg',
+        '/imagenes/prop1-2.jpg',
+        '/imagenes/propiedad1.jpg',
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/casa1.jpg',
+        '/imagenes/prop1-1.jpg'
       ],
       tipo: 'monoambiente',
       ubicacion: [-32.8908, -68.8272], // Mendoza
@@ -69,8 +80,12 @@ function App() {
       precio: 450000,
       imagen: '/imagenes/propiedad1.jpg',
       imagenes: [
+        '/imagenes/propiedad1.jpg',
         '/imagenes/casa1.jpg',
-        '/imagenes/prop1-1.jpg'
+        '/imagenes/prop1-1.jpg',
+        '/imagenes/casa2.jpg',
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/prop1-2.jpg'
       ],
       tipo: 'casa',
       ubicacion: [-31.6187, -60.7012], // Santa Fe
@@ -88,8 +103,12 @@ function App() {
       precio: 800,
       imagen: '/imagenes/propiedad1.jpg',
       imagenes: [
+        '/imagenes/propiedad1.jpg',
         '/imagenes/prop1-1.jpg',
         '/imagenes/prop1-2.jpg',
+        '/imagenes/casa1.jpg',
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/propiedad3.jpg'
       ],
       tipo: 'departamento',
       ubicacion: [-34.6037, -58.3816],
@@ -104,8 +123,12 @@ function App() {
       precio: 1200,
       imagen: '/imagenes/propiedad2.jpg',
       imagenes: [
+        '/imagenes/propiedad2.jpg',
         '/imagenes/casa2.jpg',
-        '/imagenes/casa2_2.jpg'
+        '/imagenes/casa1.jpg',
+        '/imagenes/prop1-1.jpg',
+        '/imagenes/prop1-2.jpg',
+        '/imagenes/propiedad1.jpg'
       ],
       tipo: 'casa',
       ubicacion: [-31.4201, -64.1888],
@@ -120,8 +143,12 @@ function App() {
       precio: 500,
       imagen: '/imagenes/propiedad3.jpg',
       imagenes: [
-        '/imagenes/monoambiente3.jpg',
-        '/imagenes/monoambiente4.jpg'
+        '/imagenes/propiedad3.jpg',
+        '/imagenes/prop1-2.jpg',
+        '/imagenes/propiedad1.jpg',
+        '/imagenes/propiedad2.jpg',
+        '/imagenes/casa1.jpg',
+        '/imagenes/prop1-1.jpg'
       ],
       tipo: 'monoambiente',
       ubicacion: [-32.8908, -68.8272],

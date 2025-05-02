@@ -137,16 +137,17 @@ const Contacto = () => {
           </div>
 
           {/* Mapa */}
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <div className="space-y-4 relative">
+            <h2 className="text-2xl font-bold text-gray-800">
               Nuestra Ubicación
             </h2>
-            <div className="h-[300px] rounded-xl overflow-hidden">
+            <div className="map-container rounded-2xl overflow-hidden shadow-lg relative" style={{ height: '300px', zIndex: 0 }}>
               <MapContainer 
                 center={position} 
                 zoom={13} 
                 style={{ height: '100%', width: '100%' }}
                 scrollWheelZoom={false}
+                className="relative z-0"
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
