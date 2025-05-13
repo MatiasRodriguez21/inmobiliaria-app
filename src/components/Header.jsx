@@ -60,13 +60,10 @@ const Header = () => {
             aria-label="Inicio"
           >
             <img 
-              src="/inmobiliaria.png" 
+              src="/Logo-inmob.png" 
               alt="Inmobiliaria Logo" 
-              className="h-8 md:h-10"
+              className="h-28 md:h-40 w-auto max-h-40 drop-shadow-xl"
             />
-            <span className="text-white text-xl md:text-2xl font-bold">
-              Inmobiliaria
-            </span>
           </Link>
 
           {/* Botón de menú móvil */}
