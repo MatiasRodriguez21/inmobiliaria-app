@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaHome, FaHandshake, FaChartLine, FaCamera, FaBuilding, FaFileContract, FaCalculator, FaSearchDollar, FaCog } from 'react-icons/fa';
+import { FaHome, FaHandshake, FaChartLine, FaCamera, FaCalculator, FaSearchDollar, FaCog } from 'react-icons/fa';
 import { MdHomeWork, MdGavel } from 'react-icons/md';
 
 const Servicios = () => {

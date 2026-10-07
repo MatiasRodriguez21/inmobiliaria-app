@@ -1,289 +1,211 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Helmet } from 'react-helmet';
-import { FaDollarSign, FaHome, FaMapMarkerAlt, FaRulerCombined, FaTimes, FaPhone, FaCalendar } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import '../App.css'; // Corregir la ruta de importación de estilos
+import { FaArrowLeft, FaBed, FaBath, FaRulerCombined, FaMapMarkerAlt, FaHome, FaEnvelope } from 'react-icons/fa';
+import PropertyCard from './PropertyCard';
+import NotFound from './NotFound';
+import { usePropiedad, usePropiedades } from '../hooks/usePropiedades';
+import { useFavoritos } from '../hooks/useFavoritos';
+import { formatearPrecio } from '../utils/propiedades';
 
-// Iconos simples con emojis para ilustrar (pueden reemplazarse por SVG o librerías de iconos)
-const IconoPrecio = () => <span role="img" aria-label="precio">💰</span>;
-const IconoUbicacion = () => <span role="img" aria-label="ubicacion">📍</span>;
-const IconoTamano = () => <span role="img" aria-label="tamaño">📐</span>;
-const IconoCaracteristicas = () => <span role="img" aria-label="características">✨</span>;
-
-// Definición del IconoTipo para evitar error
-const IconoTipo = () => <span role="img" aria-label="tipo">🏠</span>;
-
-// Configuración del icono del marcador
+// Ícono del marcador (Leaflet no resuelve sus imágenes por defecto con Webpack)
 const icon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+  shadowSize: [41, 41],
 });
 
-// Componente para mostrar los detalles de una propiedad
-const PropertyDetail = ({ propiedades }) => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [currentProperty, setCurrentProperty] = useState(null);
-  const [showContactForm, setShowContactForm] = useState(false);
+const Dato = ({ icono: Icono, etiqueta, valor }) => (
+  <div className="flex items-center gap-3 rounded-xl bg-gray-50 p-3 dark:bg-gray-700/50">
+    <Icono className="text-lg text-blue-600" aria-hidden="true" />
+    <div>
+      <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">{etiqueta}</p>
+      <p className="font-semibold capitalize text-gray-900 dark:text-white">{valor}</p>
+    </div>
+  </div>
+);
 
-  useEffect(() => {
-    const foundProperty = propiedades.find(prop => prop.id === parseInt(id));
-    setCurrentProperty(foundProperty);
-    window.scrollTo(0, 0); // Scroll to top when property changes
-  }, [id, propiedades]);
+const FormularioConsulta = ({ titulo }) => {
+  const [enviado, setEnviado] = useState(false);
 
-  if (!currentProperty) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="text-xl text-gray-600">Cargando propiedad...</div>
-    </div>;
+  if (enviado) {
+    return (
+      <p className="rounded-xl bg-green-50 p-4 text-green-800" role="status">
+        ¡Gracias! Recibimos tu consulta y te vamos a responder a la brevedad.
+      </p>
+    );
   }
 
-  const position = currentProperty.ubicacion || [40.4168, -3.7038]; // Madrid por defecto
-  const propiedadesRelacionadas = propiedades.filter(
-    prop => prop.tipo === currentProperty.tipo && prop.id !== currentProperty.id
-  );
+  // Demo: no hay backend de mensajes, así que solo se confirma el envío en pantalla.
+  const enviar = (e) => {
+    e.preventDefault();
+    setEnviado(true);
+  };
+
+  const campo = 'w-full rounded-xl border border-gray-300 px-4 py-2.5 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white';
 
   return (
-    <div className="property-detail">
-      <Helmet>
-        <title>{currentProperty.titulo} - Detalles de la Propiedad</title>
-        <meta
-          name="description"
-          content={
-            currentProperty.descripcionExtendida ||
-            `Detalles de la propiedad ${currentProperty.titulo}, ubicada en ${currentProperty.ubicacionTexto || 'una ubicación privilegiada'}.`
-          }
-        />
-      </Helmet>
+    <form onSubmit={enviar} className="space-y-4">
+      <label className="block">
+        <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-200">Nombre</span>
+        <input type="text" name="nombre" required className={campo} autoComplete="name" />
+      </label>
+      <label className="block">
+        <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-200">Email</span>
+        <input type="email" name="email" required className={campo} autoComplete="email" />
+      </label>
+      <label className="block">
+        <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-200">Mensaje</span>
+        <textarea name="mensaje" rows="3" required className={campo} defaultValue={`Hola, me interesa "${titulo}". ¿Sigue disponible?`} />
+      </label>
+      <button type="submit" className="w-full rounded-xl bg-blue-600 px-6 py-3 font-medium text-white shadow hover:bg-blue-700 active:scale-[0.99]">
+        Enviar consulta
+      </button>
+    </form>
+  );
+};
 
-      <button className="mb-6 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-md" onClick={() => navigate(-1)}>
-        <FaTimes className="text-lg" />
-        Volver al listado
+const PropertyDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { propiedad, cargando, error } = usePropiedad(id);
+  const { propiedades } = usePropiedades(propiedad?.operacion);
+  const { esFavorito, alternarFavorito } = useFavoritos();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  if (cargando) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center text-gray-600" role="status">
+        Cargando propiedad…
+      </div>
+    );
+  }
+
+  if (error || !propiedad) {
+    return <NotFound titulo="Propiedad no encontrada" mensaje="Puede que ya no esté publicada o que el enlace sea incorrecto." />;
+  }
+
+  const relacionadas = propiedades.filter((p) => p.tipo === propiedad.tipo && p.id !== propiedad.id).slice(0, 3);
+
+  return (
+    <article className="mx-auto max-w-[1200px] px-4 py-8">
+      <title>{`${propiedad.titulo} | Inmobiliaria SA`}</title>
+      <meta name="description" content={`${propiedad.descripcion} ${propiedad.ubicacionTexto}.`} />
+
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="mb-6 flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+      >
+        <FaArrowLeft aria-hidden="true" /> Volver al listado
       </button>
 
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">{currentProperty.titulo}</h1>
+      <header className="mb-6">
+        <p className="mb-1 text-sm font-medium uppercase tracking-wide text-blue-600">
+          {propiedad.operacion === 'alquiler' ? 'En alquiler' : 'En venta'}
+        </p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">{propiedad.titulo}</h1>
+        <p className="mt-2 flex items-center gap-2 text-gray-600 dark:text-gray-300">
+          <FaMapMarkerAlt className="text-blue-500" aria-hidden="true" /> {propiedad.ubicacionTexto}
+        </p>
+      </header>
 
-      <div className="property-main-content">
-        {/* Carrusel de imágenes con miniaturas */}
-        <div className="carousel-container">
-          <Carousel showThumbs={true} infiniteLoop useKeyboardArrows autoPlay>
-            {currentProperty.imagenes && currentProperty.imagenes.length > 0 ? (
-              currentProperty.imagenes.map((img, index) => (
-                <div key={index}>
-                  <img src={img} alt={`${currentProperty.titulo} ${index + 1}`} />
-                </div>
-              ))
-            ) : (
-              <div>
-                <img src={currentProperty.imagen} alt={currentProperty.titulo} />
+      <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div className="overflow-hidden rounded-2xl shadow-md">
+          <Carousel showThumbs infiniteLoop useKeyboardArrows showStatus={false}>
+            {propiedad.imagenes.map((img, i) => (
+              <div key={img + i}>
+                <img src={img} alt={`${propiedad.titulo}, foto ${i + 1}`} />
               </div>
-            )}
+            ))}
           </Carousel>
         </div>
 
-        <motion.div
-          className="property-info bg-white rounded-2xl shadow-md p-8 max-w-md"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <FaDollarSign className="text-green-500" />
-            <p><strong>Precio:</strong> <span className="text-green-500 font-extrabold text-lg">${currentProperty.precio.toLocaleString()}</span></p>
-          </div>
-          <div className="flex items-center gap-3 mb-4">
-            <FaHome className="text-blue-500" />
-            <p><strong>Tipo:</strong> {currentProperty.tipo}</p>
-          </div>
-          <div className="flex items-center gap-3 mb-4">
-            <FaMapMarkerAlt className="text-pink-500" />
-            <p><strong>Ubicación:</strong> {currentProperty.ubicacionTexto || 'No disponible'}</p>
-          </div>
-          <div className="flex items-center gap-3 mb-4">
-            <FaRulerCombined className="text-purple-500" />
-            <p><strong>Tamaño:</strong> {currentProperty.tamano || 'No disponible'} m²</p>
+        <aside className="h-fit rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
+          <div className="mb-5 flex items-start justify-between gap-4">
+            <p className="text-3xl font-bold text-gray-900 dark:text-white">{formatearPrecio(propiedad.precio, propiedad.operacion)}</p>
+            <button
+              type="button"
+              onClick={() => alternarFavorito(propiedad.id)}
+              aria-pressed={esFavorito(propiedad.id)}
+              className="rounded-full border border-gray-200 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200"
+            >
+              {esFavorito(propiedad.id) ? '★ Guardada' : '☆ Guardar'}
+            </button>
           </div>
 
-          <hr className="border-t border-gray-200 my-4" />
-
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">Características</h2>
-          <div className="flex flex-wrap gap-2">
-            {currentProperty.caracteristicas ? (
-              currentProperty.caracteristicas.split(',').map((caracteristica, index) => (
-                <span
-                  key={index}
-                  className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                >
-                  {caracteristica.includes('Habitaciones') && <FaHome className="text-blue-500" />}
-                  {caracteristica.includes('Baños') && <FaRulerCombined className="text-purple-500" />}
-                  {caracteristica.includes('Balcón') && <FaMapMarkerAlt className="text-pink-500" />}
-                  {caracteristica}
-                </span>
-              ))
-            ) : (
-              <p>No hay características disponibles.</p>
-            )}
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            <Dato icono={FaHome} etiqueta="Tipo" valor={propiedad.tipo} />
+            <Dato icono={FaRulerCombined} etiqueta="Superficie" valor={`${propiedad.tamano} m²`} />
+            <Dato icono={FaBed} etiqueta="Habitaciones" valor={propiedad.habitaciones} />
+            <Dato icono={FaBath} etiqueta="Baños" valor={propiedad.banos} />
           </div>
 
-          <hr className="border-t border-gray-200 my-4" />
-
-          <p className="italic text-gray-500 mt-4">{currentProperty.descripcion}</p>
-        </motion.div>
+          <h2 className="mb-3 flex items-center gap-2 font-semibold text-gray-900 dark:text-white">
+            <FaEnvelope className="text-blue-600" aria-hidden="true" /> Consultar por esta propiedad
+          </h2>
+          <FormularioConsulta titulo={propiedad.titulo} />
+        </aside>
       </div>
 
-      <hr className="border-t border-gray-200 my-4" />
+      <section className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <h2 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">Descripción</h2>
+          <p className="leading-relaxed text-gray-700 dark:text-gray-300">{propiedad.descripcionExtendida || propiedad.descripcion}</p>
+        </div>
+        <div>
+          <h2 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">Características</h2>
+          <ul className="flex flex-wrap gap-2">
+            {propiedad.caracteristicas.map((c) => (
+              <li key={c} className="rounded-full bg-blue-50 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">
+                {c}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-      {/* Descripción extendida */}
-      <div className="property-extended-description">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Descripción extendida</h2>
-        <p className="text-gray-600 leading-relaxed">{currentProperty.descripcionExtendida || 'No hay una descripción extendida disponible para esta propiedad.'}</p>
-      </div>
-
-      <hr className="border-t border-gray-200 my-8" />
-
-      {/* Mapa con la ubicación */}
-      <div className="space-y-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Ubicación</h2>
-        <div className="map-container rounded-2xl overflow-hidden shadow-lg" style={{ height: '400px', position: 'relative', zIndex: 10 }}>
-          <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+      <section className="mt-10">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Ubicación</h2>
+        <div className="relative z-0 h-[360px] overflow-hidden rounded-2xl shadow-md">
+          <MapContainer center={propiedad.ubicacion} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
             <TileLayer
               attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position} icon={icon}>
+            <Marker position={propiedad.ubicacion} icon={icon}>
               <Popup>
-                <div className="text-center">
-                  <h3 className="font-bold">{currentProperty.titulo}</h3>
-                  <p>{currentProperty.ubicacionTexto}</p>
-                </div>
+                <strong>{propiedad.titulo}</strong>
+                <br />
+                {propiedad.ubicacionTexto}
               </Popup>
             </Marker>
           </MapContainer>
         </div>
-      </div>
+      </section>
 
-      <hr className="border-t border-gray-200 my-8" />
-
-      {/* Botones estilizados */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center my-8">
-        <button 
-          className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md w-full sm:w-auto text-lg font-medium" 
-          onClick={() => setShowContactForm(!showContactForm)}
-        >
-          <FaPhone className="text-lg" />
-          {showContactForm ? 'Cerrar formulario' : 'Contactar vendedor'}
-        </button>
-        <button 
-          className="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors flex items-center justify-center gap-2 shadow-md w-full sm:w-auto text-lg font-medium"
-          onClick={() => alert('Funcionalidad de agendar visita en desarrollo')}
-        >
-          <FaCalendar className="text-lg" />
-          Agendar visita
-        </button>
-      </div>
-
-      {/* Formulario de contacto rápido */}
-      {showContactForm && (
-        <motion.div 
-          className="contact-form bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto my-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-        >
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">Formulario de Contacto</h3>
-          <form className="space-y-6">
-            <div className="form-group">
-              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Nombre:</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                required 
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Correo Electrónico:</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                required 
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="message" className="block text-gray-700 font-medium mb-2">Mensaje:</label>
-              <textarea 
-                id="message" 
-                name="message" 
-                rows="4" 
-                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                required
-              ></textarea>
-            </div>
-            <button 
-              type="submit" 
-              className="w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-md font-medium text-lg"
-            >
-              Enviar mensaje
-            </button>
-          </form>
-        </motion.div>
-      )}
-
-      <hr className="border-t border-gray-200 my-8" />
-
-      {/* Propiedades relacionadas */}
-      {propiedadesRelacionadas.length > 0 && (
-        <div className="related-properties">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8">Propiedades relacionadas</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {propiedadesRelacionadas.slice(0, 3).map((prop) => (
-              <motion.div
-                key={prop.id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-                whileHover={{ y: -10 }}
-              >
-                <Link to={`/property/${prop.id}`} className="block">
-                  <div className="relative">
-                    <img 
-                      src={prop.imagen} 
-                      alt={prop.titulo} 
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition-colors">
-                      {prop.titulo}
-                    </h3>
-                    <div className="flex items-center gap-2 text-green-600 font-bold mb-2">
-                      <FaDollarSign />
-                      <span className="text-lg">{prop.precio.toLocaleString()}</span>
-                    </div>
-                    <p className="text-gray-600 text-sm line-clamp-2">
-                      {prop.descripcion}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
+      {relacionadas.length > 0 && (
+        <section className="mt-12">
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Propiedades similares</h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relacionadas.map((p) => (
+              <PropertyCard key={p.id} propiedad={p} esFavorito={esFavorito(p.id)} onToggleFavorito={alternarFavorito} />
             ))}
           </div>
-        </div>
+        </section>
       )}
-    </div>
+    </article>
   );
 };
 

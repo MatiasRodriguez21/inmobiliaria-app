@@ -15,18 +15,18 @@ const Footer = () => {
               Con años de experiencia en el mercado inmobiliario, ofrecemos un servicio personalizado y profesional.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <span className="text-gray-400" aria-hidden="true">
                 <FaFacebookF className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              </span>
+              <span className="text-gray-400" aria-hidden="true">
                 <FaTwitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              </span>
+              <span className="text-gray-400" aria-hidden="true">
                 <FaInstagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              </span>
+              <span className="text-gray-400" aria-hidden="true">
                 <FaLinkedinIn className="w-5 h-5" />
-              </a>
+              </span>
             </div>
           </div>
 
@@ -119,8 +119,10 @@ const Footer = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-gray-500 text-xs">Desarrollado por</span>
-                    <a 
-                      href="#" 
+                    <a
+                      href="https://matiasrodriguez21.github.io/portafolio/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="relative inline-flex items-center"
                     >
                       <span className="relative text-blue-400 font-medium tracking-wide hover:text-blue-300 transition-colors duration-200">
@@ -135,19 +137,13 @@ const Footer = () => {
             <div className="mt-4 md:mt-0">
               <ul className="flex space-x-6">
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                    Política de privacidad
-                  </a>
+                  <span className="text-gray-400 text-sm">Política de privacidad</span>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                    Términos de uso
-                  </a>
+                  <span className="text-gray-400 text-sm">Términos de uso</span>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                    Mapa del sitio
-                  </a>
+                  <span className="text-gray-400 text-sm">Mapa del sitio</span>
                 </li>
               </ul>
             </div>

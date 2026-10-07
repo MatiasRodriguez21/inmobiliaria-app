@@ -1,151 +1,126 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FaSearch, FaHome, FaDollarSign, FaMapMarkerAlt } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { ORDENES } from '../utils/propiedades';
 
-const SearchFilter = ({ propiedades, setFilteredPropiedades, initialBusqueda = '', initialTipo = '', isRental = false }) => {
+const CAMPOS = ['busqueda', 'tipo', 'precioMin', 'precioMax'];
+
+const leerFormulario = (params) => Object.fromEntries(CAMPOS.map((c) => [c, params.get(c) || '']));
+
+const inputBase =
+  'w-full rounded-xl border-2 border-gray-200 py-3 pl-11 pr-4 transition focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white';
+
+// El formulario edita los parámetros de la URL; el listado los lee y filtra.
+// Así los filtros se pueden compartir con un link y el botón "Atrás" funciona.
+const SearchFilter = ({ isRental = false }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [busqueda, setBusqueda] = useState(initialBusqueda);
-  const [tipo, setTipo] = useState(initialTipo);
-  const [precioMin, setPrecioMin] = useState('');
-  const [precioMax, setPrecioMax] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [form, setForm] = useState(() => leerFormulario(searchParams));
+  const [masFiltros, setMasFiltros] = useState(() => Boolean(searchParams.get('precioMin') || searchParams.get('precioMax')));
 
+  // Si la URL cambia desde afuera (por ejemplo, desde el buscador del inicio), sincronizar el formulario.
   useEffect(() => {
-    setBusqueda(initialBusqueda);
-    setTipo(initialTipo);
-  }, [initialBusqueda, initialTipo]);
+    setForm(leerFormulario(searchParams));
+  }, [searchParams]);
 
-  const handleSearch = (e) => {
+  const actualizar = (e) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const aplicar = (e) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams);
-    if (busqueda) params.set('busqueda', busqueda);
-    else params.delete('busqueda');
-    if (tipo) params.set('tipo', tipo);
-    else params.delete('tipo');
+    CAMPOS.forEach((campo) => (form[campo] ? params.set(campo, form[campo]) : params.delete(campo)));
     setSearchParams(params);
-
-    const filtered = propiedades.filter(propiedad => {
-      const cumpleBusqueda = !busqueda || 
-        propiedad.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
-        propiedad.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
-        propiedad.ubicacionTexto.toLowerCase().includes(busqueda.toLowerCase());
-      const cumpleTipo = !tipo || propiedad.tipo === tipo;
-      const cumplePrecioMin = !precioMin || propiedad.precio >= parseInt(precioMin);
-      const cumplePrecioMax = !precioMax || propiedad.precio <= parseInt(precioMax);
-
-      return cumpleBusqueda && cumpleTipo && cumplePrecioMin && cumplePrecioMax;
-    });
-
-    setFilteredPropiedades(filtered);
   };
 
+  const cambiarOrden = (e) => {
+    const params = new URLSearchParams(searchParams);
+    if (e.target.value === 'relevancia') params.delete('orden');
+    else params.set('orden', e.target.value);
+    setSearchParams(params, { replace: true });
+  };
+
+  const limpiar = () => setSearchParams({});
+
+  const hayFiltros = CAMPOS.some((c) => searchParams.get(c));
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="relative z-10"
-    >
-      <form onSubmit={handleSearch} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-        <div className="space-y-4">
-          {/* Barra principal de búsqueda */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <FaMapMarkerAlt className="text-gray-400" />
-              </div>
-              <input
-                type="text"
-                placeholder={`Buscar ${isRental ? 'alquiler' : 'propiedad'} por ubicación...`}
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
-              />
-            </div>
+    <form onSubmit={aplicar} className="rounded-2xl bg-white p-5 shadow-xl dark:bg-gray-800 md:p-6" role="search">
+      <div className="flex flex-col gap-3 md:flex-row">
+        <label className="relative flex-1">
+          <span className="sr-only">Ubicación o palabra clave</span>
+          <FaMapMarkerAlt className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+          <input
+            type="text"
+            name="busqueda"
+            placeholder={`Buscar ${isRental ? 'alquiler' : 'propiedad'} por ubicación...`}
+            value={form.busqueda}
+            onChange={actualizar}
+            className={inputBase}
+          />
+        </label>
 
-            <div className="md:w-64 relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <FaHome className="text-gray-400" />
-              </div>
-              <select 
-                value={tipo} 
-                onChange={(e) => setTipo(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white appearance-none cursor-pointer transition-all"
-              >
-                <option value="">Tipo de propiedad</option>
-                <option value="casa">Casa</option>
-                <option value="departamento">Departamento</option>
-                <option value="monoambiente">Monoambiente</option>
-              </select>
-            </div>
+        <label className="relative md:w-56">
+          <span className="sr-only">Tipo de propiedad</span>
+          <FaHome className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+          <select name="tipo" value={form.tipo} onChange={actualizar} className={`${inputBase} cursor-pointer appearance-none`}>
+            <option value="">Todos los tipos</option>
+            <option value="casa">Casa</option>
+            <option value="departamento">Departamento</option>
+            <option value="monoambiente">Monoambiente</option>
+          </select>
+        </label>
 
-            <motion.button 
-              type="submit"
-              className="md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 transition-colors"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <FaSearch />
-              <span className="font-medium">Buscar</span>
-            </motion.button>
-          </div>
+        <button
+          type="submit"
+          className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3 font-medium text-white shadow-lg transition hover:bg-blue-700 active:scale-[0.98]"
+        >
+          <FaSearch aria-hidden="true" />
+          Buscar
+        </button>
+      </div>
 
-          {/* Botón para expandir filtros adicionales */}
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors focus:outline-none"
-          >
-            {isExpanded ? 'Menos filtros' : 'Más filtros'}
-          </button>
-
-          {/* Filtros adicionales */}
-          <motion.div 
-            initial={false}
-            animate={{ 
-              height: isExpanded ? 'auto' : 0,
-              opacity: isExpanded ? 1 : 0
-            }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-            style={{ 
-              position: 'relative',
-              zIndex: 10 
-            }}
-          >
-            <div className="pt-4 space-y-4">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative">
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                    <FaDollarSign className="text-gray-400" />
-                  </div>
-                  <input
-                    type="number"
-                    placeholder={`Precio mínimo ${isRental ? 'mensual' : ''}`}
-                    value={precioMin}
-                    onChange={(e) => setPrecioMin(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
-                  />
-                </div>
-                <div className="flex-1 relative">
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                    <FaDollarSign className="text-gray-400" />
-                  </div>
-                  <input
-                    type="number"
-                    placeholder={`Precio máximo ${isRental ? 'mensual' : ''}`}
-                    value={precioMax}
-                    onChange={(e) => setPrecioMax(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring focus:ring-blue-200 dark:focus:ring-blue-800 dark:bg-gray-700 dark:text-white transition-all"
-                  />
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {masFiltros && (
+        <div className="mt-3 flex flex-col gap-3 md:flex-row">
+          <label className="relative flex-1">
+            <span className="sr-only">Precio mínimo</span>
+            <FaDollarSign className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+            <input type="number" min="0" name="precioMin" placeholder={`Precio mínimo${isRental ? ' mensual' : ''}`} value={form.precioMin} onChange={actualizar} className={inputBase} />
+          </label>
+          <label className="relative flex-1">
+            <span className="sr-only">Precio máximo</span>
+            <FaDollarSign className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+            <input type="number" min="0" name="precioMax" placeholder={`Precio máximo${isRental ? ' mensual' : ''}`} value={form.precioMax} onChange={actualizar} className={inputBase} />
+          </label>
         </div>
-      </form>
-    </motion.div>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-4 text-sm font-medium">
+          <button type="button" onClick={() => setMasFiltros((v) => !v)} className="text-blue-600 hover:text-blue-700 dark:text-blue-400" aria-expanded={masFiltros}>
+            {masFiltros ? 'Ocultar precio' : 'Filtrar por precio'}
+          </button>
+          {hayFiltros && (
+            <button type="button" onClick={limpiar} className="text-gray-500 hover:text-gray-700 dark:text-gray-400">
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+
+        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+          Ordenar por
+          <select
+            value={searchParams.get('orden') || 'relevancia'}
+            onChange={cambiarOrden}
+            className="rounded-lg border-gray-200 py-1.5 text-sm dark:border-gray-700 dark:bg-gray-700"
+          >
+            {Object.entries(ORDENES).map(([valor, etiqueta]) => (
+              <option key={valor} value={valor}>
+                {etiqueta}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+    </form>
   );
 };
 

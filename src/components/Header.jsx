@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Logo from './Logo';
 import { FaHome, FaBuilding, FaInfoCircle, FaPhoneAlt, FaBars, FaTimes, FaKey } from 'react-icons/fa';
 import { MdRealEstateAgent } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,10 +21,8 @@ const Header = () => {
 
   // Cerrar el menú cuando se cambia de ruta
   useEffect(() => {
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-      document.body.style.overflow = 'unset';
-    }
+    setIsMenuOpen(false);
+    document.body.style.overflow = 'unset';
   }, [location]);
 
   useEffect(() => {
@@ -57,13 +56,9 @@ const Header = () => {
           <Link 
             to="/" 
             className="flex items-center gap-3"
-            aria-label="Inicio"
+            aria-label="Inmobiliaria SA, inicio"
           >
-            <img 
-              src="/Logo-inmob.png" 
-              alt="Inmobiliaria Logo" 
-              className="h-28 md:h-40 w-auto max-h-40 drop-shadow-xl"
-            />
+            <Logo />
           </Link>
 
           {/* Botón de menú móvil */}

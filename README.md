@@ -1,75 +1,45 @@
-# Inmobiliaria App
+# Inmobiliaria SA
 
-[![React](https://img.shields.io/badge/React-18.0.0-blue)](https://reactjs.org/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.0-green)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+Sitio de una inmobiliaria ficticia hecho con React: listado de propiedades en venta y alquiler, filtros, favoritos y ficha de cada propiedad con galería y mapa.
 
----
+**Demo:** https://inmobiliaria-app-theta.vercel.app/
 
-## Descripción
+> Es un proyecto modelo para practicar y mostrar cómo organizo una app de React. Los datos son de ejemplo.
 
-Aplicación web desarrollada con **React** para la gestión de propiedades inmobiliarias. Permite a los usuarios explorar propiedades, ver detalles específicos y contactar con los vendedores de manera eficiente.
+## Qué incluye
 
-Cuenta con un diseño moderno y responsivo, optimizado para dispositivos móviles y de escritorio.
+- **Listado con filtros** por ubicación, tipo y rango de precio, y orden por precio o superficie. Los filtros viven en la URL, así que se pueden compartir con un link y el botón "Atrás" funciona.
+- **Ficha de propiedad** con galería, datos principales, mapa (Leaflet + OpenStreetMap), formulario de consulta y propiedades similares.
+- **Favoritos** guardados en el navegador.
+- **Estados de carga, vacío y error**, y página 404.
+- **SEO por página** con las etiquetas `<title>` y `<meta>` nativas de React 19.
+- **Diseño responsive** con Tailwind CSS.
 
----
+## Stack
 
-## Características principales
+React 19 · React Router 7 · Tailwind CSS · Framer Motion · Leaflet · Jest + Testing Library
 
-- Listado de propiedades con imágenes y descripciones.
-- Detalles completos de cada propiedad, incluyendo precio, ubicación y características.
-- Filtros avanzados para buscar propiedades por tipo, precio y más.
-- Formulario de contacto directo con los vendedores.
-- Diseño responsivo para adaptarse a cualquier dispositivo.
+## Cómo está organizado
 
----
-
-## Tecnologías
-
-- React 18.0.0
-- TailwindCSS 3.0
-- Framer Motion (para animaciones)
-- Leaflet (para mapas interactivos)
-
----
-
-## Instalación
-
-1. Clonar el repositorio:
-
-```bash
-git clone <URL_DE_TU_REPOSITORIO>
-cd inmobiliaria-app
+```
+src/
+├── components/   Componentes de UI (PropertyCard, SearchFilter, PropertyDetail…)
+├── data/         Datos de ejemplo
+├── hooks/        usePropiedades (carga + estados) y useFavoritos (localStorage)
+├── services/     Acceso a datos; hoy simula una API con promesas
+└── utils/        Lógica pura de filtrado, orden y formato de precios, con tests
 ```
 
-2. Instalar dependencias:
+La capa `services/` es el único lugar que sabe de dónde salen los datos: para conectar un backend real alcanza con cambiar esas funciones por un `fetch`.
+
+## Ejecutar en local
 
 ```bash
 npm install
-```
-
-3. Iniciar el servidor de desarrollo:
-
-```bash
-npm start
+npm start      # http://localhost:3000
+npm test       # tests unitarios
 ```
 
 ---
 
-## Uso
-
-1. Accede a la aplicación en tu navegador en `http://localhost:3000`.
-2. Explora las propiedades disponibles.
-3. Filtra propiedades según tus necesidades.
-4. Haz clic en una propiedad para ver sus detalles completos.
-5. Contacta al vendedor a través del formulario de contacto.
-
----
-
-## Contacto
-
-Para dudas o sugerencias, puedes contactarme a través de mi correo electrónico: [mati.rodriguez1201@gmail.com].
-
----
-
-> Proyecto desarrollado por **Matías Rodríguez**.
+Hecho por [Matías Rodríguez](https://matiasrodriguez21.github.io/portafolio/).
