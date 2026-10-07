@@ -141,7 +141,7 @@ const PropertyDetail = () => {
               aria-pressed={esFavorito(propiedad.id)}
               className="rounded-full border border-gray-200 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200"
             >
-              {esFavorito(propiedad.id) ? '★ Guardada' : '☆ Guardar'}
+              {esFavorito(propiedad.id) ? <><span className="text-accent-500">★</span> Guardada</> : '☆ Guardar'}
             </button>
           </div>
 

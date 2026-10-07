@@ -65,7 +65,7 @@ const Contacto = () => {
         transition={{ duration: 0.6 }}
         className="text-center max-w-4xl mx-auto mb-16"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
           Contáctanos
         </h1>
         <p className="text-gray-600 text-lg md:text-xl">
@@ -106,7 +106,7 @@ const Contacto = () => {
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-purple-100 p-4 rounded-xl">
-                  <FaEnvelope className="text-purple-600 text-xl" />
+                  <FaEnvelope className="text-blue-600 text-xl" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-800">Email</h3>
@@ -156,7 +156,7 @@ const Contacto = () => {
                 <Marker position={position} icon={icon}>
                   <Popup>
                     <div className="text-center">
-                      <h3 className="font-bold">Inmobiliaria MR</h3>
+                      <h3 className="font-bold">Inmobiliaria SA</h3>
                       <p>Av. Colón 1234, Nueva Córdoba</p>
                       <p>Córdoba, Argentina</p>
                     </div>

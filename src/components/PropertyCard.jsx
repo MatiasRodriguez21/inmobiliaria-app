@@ -17,7 +17,7 @@ const PropertyCard = ({ propiedad, esFavorito = false, onToggleFavorito }) => {
             className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
             loading="lazy"
           />
-          <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-sm font-bold text-blue-700 shadow">
+          <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-sm font-bold text-accent-700 shadow">
             {formatearPrecio(precio, operacion)}
           </span>
         </div>
@@ -54,7 +54,7 @@ const PropertyCard = ({ propiedad, esFavorito = false, onToggleFavorito }) => {
           aria-label={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           aria-pressed={esFavorito}
         >
-          {esFavorito ? <FaStar className="text-lg text-yellow-400" /> : <FaRegStar className="text-lg text-gray-600" />}
+          {esFavorito ? <FaStar className="text-lg text-accent-500" /> : <FaRegStar className="text-lg text-gray-600" />}
         </button>
       )}
     </article>

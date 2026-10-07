@@ -20,7 +20,7 @@ const Nosotros = () => {
           animate={fadeIn.animate}
           transition={fadeIn.transition}
         >
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Nuestra Historia
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light">
@@ -42,17 +42,17 @@ const Nosotros = () => {
               <div className="bg-blue-600 p-4 rounded-2xl">
                 <FaHome className="text-4xl text-white" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                 Sobre Nosotros
               </h2>
             </div>
             <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
               <p>
-                En Inmobiliaria MR, creemos que mudarse no es solo cambiar de casa: es comenzar una nueva etapa. 
+                En Inmobiliaria SA, creemos que mudarse no es solo cambiar de casa: es comenzar una nueva etapa. 
                 Por eso, nos dedicamos a conectar personas con lugares donde puedan construir sus historias.
               </p>
               <p>
-                Con base en Madrid, contamos con un equipo comprometido, profesional y humano, 
+                Con base en Córdoba, contamos con un equipo comprometido, profesional y humano, 
                 dispuesto a acompañarte en cada paso del proceso de compra, venta o alquiler de propiedades. 
                 Nos enfocamos en ofrecer un servicio transparente, ágil y personalizado, adaptado a las 
                 necesidades de cada cliente.
@@ -107,7 +107,7 @@ const Nosotros = () => {
           animate={fadeIn.animate}
           transition={{ ...fadeIn.transition, delay: 0.4 }}
         >
-          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             Nuestros Valores
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
@@ -140,7 +140,7 @@ const Nosotros = () => {
           animate={fadeIn.animate}
           transition={{ ...fadeIn.transition, delay: 0.5 }}
         >
-          <h2 className="text-4xl font-bold mb-16 bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900">
             Nuestro Equipo
           </h2>
           <div className="grid md:grid-cols-3 gap-8">

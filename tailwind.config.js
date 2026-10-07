@@ -7,31 +7,48 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Paleta de marca: azul pizarra (confianza) + grises fríos + un acento cálido para precios.
+      // Se redefinen "blue" y "gray" para que todos los componentes existentes tomen la paleta nueva.
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+        blue: {
+          50: '#f0f5fb',
+          100: '#dde8f5',
+          200: '#c0d4ec',
+          300: '#93b5de',
+          400: '#5f8ecb',
+          500: '#3d6fb6',
+          600: '#2c5899',
+          700: '#24477c',
+          800: '#1f3b66',
+          900: '#1b3255',
+          950: '#12213a',
         },
-        secondary: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-        }
+        gray: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+        },
+        primary: {
+          500: '#3d6fb6',
+          600: '#2c5899',
+          700: '#24477c',
+          800: '#1f3b66',
+        },
+        accent: {
+          50: '#fbf6f1',
+          100: '#f5e8db',
+          400: '#dc9a66',
+          500: '#c8753d',
+          600: '#b0622f',
+          700: '#8f4f27',
+        },
       },
       boxShadow: {
         'custom': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
@@ -58,8 +75,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
-        'display': ['Poppins', 'sans-serif'],
+        sans: ['Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       }
     },
   },

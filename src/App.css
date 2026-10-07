@@ -24,17 +24,9 @@ body.no-scroll {
 }
 
 .App {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-/* Estilos para encabezados */
-h1, h2 {
-  text-align: center;
-  color: #222;
-  margin-bottom: 20px;
 }
 
 /* Estilos para la lista de propiedades */

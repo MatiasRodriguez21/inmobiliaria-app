@@ -9,55 +9,55 @@ const Servicios = () => {
       icon: FaHome,
       title: "Compra y Venta",
       description: "Asesoramiento personalizado en la compra y venta de propiedades",
-      color: "from-blue-500 to-blue-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaHandshake,
       title: "Alquiler",
       description: "Gestión completa de alquileres residenciales y comerciales",
-      color: "from-green-500 to-green-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaCalculator,
       title: "Tasaciones",
       description: "Tasaciones profesionales y estudios de mercado",
-      color: "from-purple-500 to-purple-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: MdGavel,
       title: "Asesoría Legal",
       description: "Asesoramiento legal en transacciones inmobiliarias",
-      color: "from-red-500 to-red-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaCog,
       title: "Gestión de Propiedades",
       description: "Administración integral de propiedades",
-      color: "from-orange-500 to-orange-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaChartLine,
       title: "Inversiones",
       description: "Asesoramiento en inversiones inmobiliarias",
-      color: "from-teal-500 to-teal-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaCamera,
       title: "Fotografía Profesional",
       description: "Servicios de fotografía y video para propiedades",
-      color: "from-indigo-500 to-indigo-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: MdHomeWork,
       title: "Home Staging",
       description: "Preparación de propiedades para la venta",
-      color: "from-pink-500 to-pink-700"
+      color: "from-blue-600 to-blue-800"
     },
     {
       icon: FaSearchDollar,
       title: "Análisis de Mercado",
       description: "Estudios detallados del mercado inmobiliario",
-      color: "from-cyan-500 to-cyan-700"
+      color: "from-blue-600 to-blue-800"
     }
   ];
 
@@ -70,7 +70,7 @@ const Servicios = () => {
         transition={{ duration: 0.6 }}
         className="text-center max-w-4xl mx-auto mb-16"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
           Nuestros Servicios
         </h1>
         <p className="text-gray-600 text-lg md:text-xl">

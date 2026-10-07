@@ -59,7 +59,7 @@ const Hero = () => {
           }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-[1.05]">
             Encuentra tu lugar ideal
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
@@ -130,7 +130,7 @@ const Hero = () => {
               </div>
               <motion.button
                 type="submit"
-                className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-2 shadow-lg"
+                className="w-full md:w-auto px-8 py-4 bg-accent-500 text-white rounded-xl hover:bg-accent-600 transition-all flex items-center justify-center gap-2 shadow-lg"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
